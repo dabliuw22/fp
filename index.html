@@ -1,0 +1,1056 @@
+<!doctype html>
+<html lang="en" prefix="og: http://ogp.me/ns#">
+  <head>
+		<meta charset="utf-8">
+
+		<title>FP in LuloBank</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/sky.css" id="theme">
+
+		<!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+    
+    <link rel="stylesheet" href="static/css/custom.css" id="highlight-theme">
+	</head>
+  <body>
+
+    <div class="reveal">
+      <div class="slides">
+          <section data-background="https://upload.wikimedia.org/wikipedia/commons/c/c3/Lambda-letter-lowercase-symbol-Garamond.svg">
+            <h3><strong>Functional Design</strong></h1>
+          </section>
+          <section>
+            <h3><strong>Functional Design</strong></h3>
+            <br>
+            <i>Functional design</i> is an alternative to object-oriented design. Both try to solve 
+              business problems in ways that reduce defects and lower the cost of maintenance.
+          </section>
+          <section>
+              <h3><strong>Some Rules</strong></h3>
+              <br>
+              <ul>
+                <li>
+                  <h5>Functional programming.</h5>
+                  <p>Functional design helps you put the <i>“practical”</i> in functional programming.</p>
+                </li>
+                <li>
+                  <h5>Simple.</h5>
+                  <p>Functional programming doesn’t need to be complex, confusing, or theoretical.</p>
+                </li>
+                <li>
+                  <h5>Power.</h5>
+                  <p>functional programming can be simple, natural, and practical, helping you solve problems with more power and more joy than ever before.</p>
+                </li>
+              </ul>
+          </section>
+          <section>
+            <h3><strong>Functional Programming</strong></h3>
+            <br>
+            <p>
+              <i>Functional programming</i> is a style of programming in which solutions are constructed 
+              by defining and applying (<i>mathematical</i>) functions.
+            </p>
+            <br>
+            <p>
+              Many programs are not <i>“purely”</i> functional, but contain parts that are written in a functional style, as well as parts that are written in a procedural style.
+            </p>
+          </section>
+          <section>
+              <h3><strong>Traits of FP</strong></h3>
+              <br>
+              <ul class="flexblock reasons">
+                <li>
+                  <p>Inmutable Data</p>
+                </li>
+                <li>
+                  <p>Higher-order Functions</p>
+                </li>
+                <li>
+                  <p>Referencial Transparency</p>
+                </li>
+                <li>
+                  <p>Recursion</p>
+                </li>
+                <li>
+                  <p>Lazy Evaluation</p>
+                </li>
+                <li>
+                  <p>Abstraction</p>
+                </li>
+              </ul>
+          </section>
+          <section>
+            <h3><strong>Why FP</strong></h3>
+            <br>
+            <ul class="flexblock reasons">
+              <li>
+                <p>Easy Maintain</p>
+              </li>
+              <li>
+                <p>Easy Testing</p>
+              </li>
+              <li>
+                <p>Explicit Code</p>
+              </li>
+              <li>
+                <p>Safe Code</p>
+              </li>
+              <li>
+                <p>Higher-level Abstraction</p>
+              </li>
+              <li>
+                <p>Deterministic Behavior</p>
+              </li>
+              <li>
+                <p>Correctness</p>
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h3><strong>Inmutable Data</strong></h3>
+            <br>
+            <p>
+              In FP we don’t mutate, we create a new instance or use <code>Optics</code>
+            </p>
+          </section>
+          <section data-auto-animate>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers>
+                  void someLogic(User user) {
+                    user.setId(UUID.randomUUID().toString());
+                  }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers>
+                  void someLogic(User user) {
+                    user.setId(UUID.randomUUID().toString());
+                    user.setName("Name");
+                  }
+              </code></pre>
+            <h3>Why that code is wrong?</h3>
+          </section>
+          <section>
+          <h3><strong>Inmutables</strong></h3>
+          <br>
+          <p> 
+            Functional programming uses <i>inmutable</i> data types, 
+            which are a better fit for concurrent applications and which invert control.
+          </p>
+          </section>
+          <section data-auto-animate>
+            <pre data-id="code-animation">
+              <code class="hljs haskell" data-trim data-line-numbers>
+                -- Haskell
+                data User = User { id :: String, username :: String }</code></pre>
+          </section>
+          <section data-auto-animate>
+          <pre data-id="code-animation">
+            <code class="hljs haskell" data-trim data-line-numbers>
+              -- Haskell
+              data User = User { id :: String, username :: String }</code></pre>
+          <pre data-id="code-animation">
+            <code class="hljs scala" data-trim data-line-numbers>
+              // Scala
+              case class User(id: String, username: String)</code></pre>
+          </section>
+          <section data-auto-animate>
+            <pre data-id="code-animation">
+              <code class="hljs haskell" data-trim data-line-numbers>
+                -- Haskell
+                data User = User { id :: String, username :: String }</code></pre>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers>
+                // Scala
+                case class User(id: String, username: String)</code></pre>
+            <pre data-id="code-animation">
+              <code class="hljs kotlin" data-trim data-line-numbers>
+                // Kotlin
+                data class User(val id: String, val username: String)</code></pre>
+          </section>
+          <section data-auto-animate>
+            <pre data-id="code-animation">
+              <code class="hljs haskell" data-trim data-line-numbers>
+                -- Haskell
+                data User = User { id :: String, username :: String }</code></pre>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers>
+                // Scala
+                case class User(id: String, username: String)</code></pre>
+            <pre data-id="code-animation">
+              <code class="hljs kotlin" data-trim data-line-numbers>
+                // Kotlin
+                data class User(val id: String, val username: String)</code></pre>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers>
+                // Java
+                import org.immutables.value.Value;
+
+                @Value.Immutable
+                abstract class AbstractUser {
+                  abstract String id();
+                  abstract String username();
+                }</code></pre>
+          </section>
+          <!--section data-auto-animate>
+            <h2 data-id="code-title">Pretty Code</h3>
+            <pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
+              import React, { useState } from 'react';
+  
+              function Example() {
+                const [count, setCount] = useState(0);
+  
+                return (
+                  ...
+                );
+              }
+            </code></pre>
+            <p>Code syntax highlighting courtesy of <a href="https://highlightjs.org/usage/">highlight.js</a>.</p>
+          </section>
+          <section data-auto-animate>
+            <h2 data-id="code-title">With animations</h3>
+            <pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers="|4,8-11|17|22-24"><script type="text/template">
+              import React, { useState } from 'react';
+  
+              function Example() {
+                const [count, setCount] = useState(0);
+  
+                return (
+                  <div>
+                    <p>You clicked {count} times</p>
+                    <button onClick={() => setCount(count + 1)}>
+                      Click me
+                    </button>
+                  </div>
+                );
+              }
+  
+              function SecondExample() {
+                const [count, setCount] = useState(0);
+  
+                return (
+                  <div>
+                    <p>You clicked {count} times</p>
+                    <button onClick={() => setCount(count + 1)}>
+                      Click me
+                    </button>
+                  </div>
+                );
+              }
+            </script></code></pre>
+          </section-->
+          <section>
+            <h3><strong>Algebraic Data Type - ADT</strong></h3>
+            <br>
+            <p>
+              Is a kind of composite type. A type formed by combining other types.               
+            </p>
+            <ul class="flexblock reasons">
+              <li>
+                <h3><code>Products</code></h3>
+              </li>
+              <li>
+                <h3><code>Co-products</code></h3>
+              </li>
+            </ul>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Products</strong></h3>
+            <br>
+            <p>
+              A product type is an aggregation of values, and can be thought of as an <code>AND</code> on types.
+            </p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Products</strong></h3>
+            <br>
+            <pre data-id="code-animation">
+                <code class="hljs haskell" data-trim data-line-numbers>
+                  -- Haskell
+                  data User = User { id :: String, username :: String }</code></pre>
+            </pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Products</strong></h3>
+            <br>
+            <pre data-id="code-animation">
+                <code class="hljs haskell" data-trim data-line-numbers>
+                  -- Haskell
+                  data User = User { id :: String, username :: String }</code></pre>
+              <pre data-id="code-animation">
+                <code class="hljs scala" data-trim data-line-numbers>
+                  // Scala
+                  case class User(id: String, username: String)</code></pre>
+            </pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Co-Products</strong></h3>
+            A sum type is a discriminated union of values, and can be thought of as an <code>OR</code> on types.
+            <pre data-id="code-animation">
+              <code class="hljs haskell" data-trim data-line-numbers>
+                -- Haskell
+                data Maybe a = Nothing | Just a</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Co-Products</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs haskell" data-trim data-line-numbers>
+                -- Haskell
+                data Maybe a = Nothing | Just a</code></pre>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers>
+                // Scala 2
+                sealed trait Maybe[+A]
+                case object Nothing extends Maybe[SNothing]
+                case class Just[+A](value: A) extends Maybe[A]</code></pre>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers>
+                // Scala 3
+                enum Maybe[+A]:
+                  case Nothing()
+                  case Just(value: A)</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Co-Products</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs haskell" data-trim data-line-numbers>
+                -- Haskell
+                data Maybe a = Nothing | Just a</code></pre>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers>
+                // Scala 2
+                sealed trait Maybe[+A]
+                case object Nothing extends Maybe[SNothing]
+                case class Just[+A](value: A) extends Maybe[A]</code></pre>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers>
+                // Scala 3
+                enum Maybe[+A]:
+                  case Nothing()
+                  case Just(value: A)</code></pre>
+            <pre data-id="code-animation">
+              <code class="hljs kotlin" data-trim data-line-numbers>
+                // Kotlin
+                open class Maybe&lt;out A&gt;
+                object Nothing : Maybe&lt;KNothing&gt;
+                data class Just&lt;out A&gt;(value: A) : Maybe&lt;A&gt;</code></pre>
+          </section>
+          <section>
+            <h3><strong>Optics</strong></h3>
+            <br>
+            <i>Optics</i> is a technique that allows <i>"zoom in"</i> to the values ​​of a structure (<code>Product</code> and <code>Co-product</code>), 
+              to obtain or modify it in a simple, composable and explicit way.
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Lens:</strong></h3> 
+            <p>Is an Optic for types of Products.</p>
+            <pre data-id="code-animation">
+              <code class="hljs haskell" data-trim data-line-numbers>
+                -- Haskell
+                data Lens s a = Lens { 
+                  view :: s -> a, 
+                  set :: s -> a -> s 
+                }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Lens:</strong></h3> 
+            <p>Is an Optic for types of Products.</p>
+            <pre data-id="code-animation">
+              <code class="hljs haskell" data-trim data-line-numbers>
+                -- Haskell
+                data Lens s a = Lens { 
+                  view :: s -> a, 
+                  set :: s -> a -> s 
+                }</code></pre>
+            <h3><strong>Prism:</strong></h3> 
+            <p>Is an Optic for types of Co-Products.</p>
+            <pre data-id="code-animation">
+              <code class="hljs haskell" data-trim data-line-numbers>
+                -- Haskell
+                data Prism s a = Prism { 
+                  preview :: s -> Maybe a, 
+                  review :: a -> s 
+                }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Lens in Haskell</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs haskell" data-trim data-line-numbers>
+                newtype AddressStreet = AddressStreet { _s :: String } deriving Show
+                newtype CityName = CityName { _c :: String } deriving Show
+                data Address = Address {
+                  _street :: AddressStreet,
+                  _city :: CityName
+                } deriving Show
+                newtype PersonName = PersonName { _n :: String } deriving Show
+                data Person = Person {
+                  _name :: PersonName,
+                  _address :: Address
+                } deriving Show</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Lens in Haskell</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs haskell" data-trim data-line-numbers=|13-20>
+                newtype AddressStreet = AddressStreet { _s :: String } deriving Show
+                newtype CityName = CityName { _c :: String } deriving Show
+                data Address = Address {
+                  _street :: AddressStreet,
+                  _city :: CityName
+                } deriving Show
+                newtype PersonName = PersonName { _n :: String } deriving Show
+                data Person = Person {
+                  _name :: PersonName,
+                  _address :: Address
+                } deriving Show
+
+                person :: Person
+                person = Person {
+                  _name = PersonName { _n = "Nick Doe" },
+                  _address = Address {
+                    _street = AddressStreet { _s = "Wall Street" },
+                    _city = CityName { _c = "new York" }
+                  }
+                }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>We need to change a value...</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs haskell" data-trim data-line-numbers>
+                  newPerson :: Person
+                  newPerson = person {
+                    _address = (_address person) {
+                      _city = (_city (_address person)) { 
+                        _c = capitalize (_c (_city (_address person))) 
+                      }
+                    }
+                  }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>We need to change a value...</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs haskell" data-trim data-line-numbers="|3-9|10-11|12-13|14-17">
+                  import Control.Lens
+  
+                  address' :: Lens' Person Address
+                  address' = lens getter setter
+                    where
+                      getter :: Person -> Address
+                      getter = _address
+                      setter :: Person -> Address -> Person
+                      setter = \p a -> p { _address = a }
+                  city' :: Lens' Address CityName
+                  city' = lens _city $ \a c -> a { _city = c }
+                  c' :: Lens' CityName String
+                  c' = lens _c $ \c n -> c { _c = n }
+                  compose' :: Lens' Person String
+                  compose' = address' . city' . c'
+                  
+                  newPerson = over compose' capitalize person</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>We need to change a value...</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs haskell" data-trim data-line-numbers="|6-10|12-15">
+                  {-# LANGUAGE TemplateHaskell #-}
+                  import Control.Lens
+  
+                  ... // Code before
+  
+                  makeLenses ''AddressStreet
+                  makeLenses ''CityName
+                  makeLenses ''Address
+                  makeLenses ''PersonName
+                  makeLenses ''Person
+                  
+                  newPersonTwo =
+                    set (address . city . c) (capitalize $ view (address . city . c) person) person
+                  newPersonThree =
+                    (address . city . c) %~ capitalize $ person</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Lens in Scala</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers>
+                case class AddressStreet(value: String)
+                case class CityName(value: String)
+                case class Address(street: AddressStreet, city: CityName)
+                case class PersonName(value: String)
+                case class Person(name: PersonName, address: Address)</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Lens in Scala</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers>
+                case class AddressStreet(value: String)
+                case class CityName(value: String)
+                case class Address(street: AddressStreet, city: CityName)
+                case class PersonName(value: String)
+                case class Person(name: PersonName, address: Address)
+
+                val person: Person = Person(
+                  name = PersonName("Nick Doe"),
+                  address = Address(
+                    street = AddressStreet("Wall Street"),
+                    city = CityName("new York")
+                  )
+                )</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>We need to change a value...</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers>
+                val person: Person = ... // with cityName.value = "new York"
+
+                val newPerson : Person = person.copy(
+                  address = person.address.copy(
+                    city = person.address.city.copy(
+                      value = person.address.city.value.capitalize
+                    )
+                  )
+                )</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>We need to change a value...</strong></h3>
+            <pre data-id="code-animation">
+                <code class="hljs scala" data-trim data-line-numbers=|10-11>
+                  val person: Person = ... // with cityName.value = "new York"
+                  
+                  import monocle.Lens
+                  import monocle.macros.GenLens
+                  
+                  val address: Lens[Person, Address] = GenLens[Person](_.address)
+                  val city: Lens[Address, CityName] = GenLens[Address](_.city)
+                  val cityName: Lens[CityName, String] = GenLens[CityName](_.value)
+                  
+                  val newPerson = (address composeLens city composeLens cityName)
+                    .modify(_.capitalize)(person)
+                </code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>We need to change a value...</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers=|7-14>
+                val person: Person = ... // with cityName.value = "new York"
+
+                // monocle Lens and GenLens...
+                
+                val newPerson = (address composeLens city composeLens cityName)
+                                .modify(_.capitalize)(person)
+
+                import monocle.macros.syntax.lens._
+  
+                val newPersonTwo: Person = person.lens(_.address).modify(_.lens(_.city)
+                                            .modify(_.lens(_.value)
+                                            .modify(_.capitalize)))
+
+                val newPersonThree: Person = person.lens(_.address.city.value).modify(_.capitalize)                            
+              </code></pre>  
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Lens In Kotlin...</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs kotlin" data-trim data-line-numbers>
+                data class AddressStreet(val value: String)
+                data class CityName(val value: String)
+                data class Address(val street: AddressStreet, val city: CityName)
+                data class PersonName(val value: String)
+                data class Person(val name: PersonName, val address: Address)                            
+              </code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Lens In Kotlin...</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs kotlin" data-trim data-line-numbers>
+                data class AddressStreet(val value: String)
+                data class CityName(val value: String)
+                data class Address(val street: AddressStreet, val city: CityName)
+                data class PersonName(val value: String)
+                data class Person(val name: PersonName, val address: Address)
+                
+                val person: Person = Person(
+                  name = PersonName("Nick Doe"),
+                  address = Address(
+                    street = AddressStreet("Wall Street"),
+                    city = CityName("new York")
+                  )
+                )
+              </code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>We need to change a value...</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs kotlin" data-trim data-line-numbers>
+                val person: Person = Person(
+                  name = PersonName("Nick Doe"),
+                  address = Address(
+                    street = AddressStreet("Wall Street"),
+                    city = CityName("new York")
+                  )
+                )
+
+                val newPerson : Person = person.copy(
+                  address = person.address.copy(
+                    city = person.address.city.copy(
+                      value = person.address.city.value.capitalize
+                    )
+                  )
+                )
+              </code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>We need to change a value...</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs kotlin" data-trim data-line-numbers="|1,3-6|7-10|11-14|15-18|19-22|24-30">
+                import arrow.optics.optics
+
+                @optics
+                data class AddressStreet(val value: String) { 
+                  companion object 
+                }
+                @optics
+                data class CityName(val value: String) { 
+                  companion object 
+                }
+                @optics
+                data class Address(val street: AddressStreet, val city: CityName) { 
+                  companion object 
+                }
+                @optics
+                data class PersonName(val value: String) { 
+                  companion object 
+                }
+                @optics
+                data class Person(val name: PersonName, val address: Address) { 
+                  companion object 
+                }
+
+                val person: Person = Person(
+                  name = PersonName("Nick Doe"),
+                  address = Address(
+                    street = AddressStreet("Wall Street"),
+                    city = CityName("new York")
+                  )
+                )
+                </code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>We need to change a value...</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs kotlin" data-trim data-line-numbers>
+                @optics ...
+
+                val person: Person = ... //With cityName.value = "new York"
+
+                val newPerson: Person = (Person.address compose Address.city
+                                        compose CityName.value).modify(person) { it.capitalize() }
+              </code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>With Java :( ...</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers="|1-4|5-8|9-13|14-17|18-22">
+                @Value.Immutable
+                abstract class AbstractAddressStreet {
+                  abstract String value();
+                }
+                @Value.Immutable
+                abstract class AbstractCityName {
+                  abstract String value();
+                }
+                @Value.Immutable
+                abstract class AbstractAddress {
+                  abstract AddressStreet street();
+                  abstract CityName city()
+                }
+                @Value.Immutable
+                abstract class AbstractPersonName {
+                  abstract String value();
+                }
+                @Value.Immutable
+                abstract class AbstractPerson { 
+                  abstract PersonName name();
+                  abstract Address address();
+                }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>With Java :( ...</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers>
+                @Value.Immutable
+                ...
+
+                Person person = Person.builder()
+                                .name(PersonName.builder().value("Nick Doe").build())
+                                .address(Address.builder()
+                                  .street(AddressStreet.builder().value("Wall Street").build())
+                                  .city(CityName.builder().value("new York").build())
+                                  .build())
+                                .build();
+                </code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>We need to change a value :( ...</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers>
+                @Value.Immutable
+                ...
+
+                Person person = ... // With cityName.value = "new York"
+
+                Person newPerson = person
+                                    .withAddress(person.address()
+                                      .withCity(person.city()
+                                        .withValue(person.city().value().capitalize())));
+                </code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Prism In Haskell...</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs haskell" data-trim data-line-numbers>
+                data Json = JsonNull
+                            | JsonString { _s :: String }
+                            | JsonInt { _i :: Int} deriving Show</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>We need to get an String from a Json or modify a Int</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs haskell" data-trim data-line-numbers="|5-7|9-11">
+                data Json = JsonNull
+                            | JsonString { _s :: String }
+                            | JsonInt { _i :: Int} deriving Show
+                
+                getString :: Json -> Maybe String
+                getString js @ (JsonString v) = Just v
+                getString _ = Nothing
+                
+                modifyInt :: Json -> Int -> Json
+                modifyInt (JsonInt v) i = JsonInt { _i = i + v }
+                modifyInt json _ = json</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>We need to get an String from a Json or modify a Int</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs haskell" data-trim data-line-numbers>
+                {-# LANGUAGE LambdaCase #-}
+                import Control.Lens
+                
+                stringPrism :: Prism' Json String
+                stringPrism =
+                  prism' JsonString
+                    (\case
+                        JsonString v -> Just v
+                        _            -> Nothing
+                    )
+                jsonString :: Json
+                jsonString = JsonString { _s = "string" }
+                getString = preview stringPrism jsonString
+                getStringTwo = jsonString ^? stringPrism</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>We need to get an String from a Json or modify a Int</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs haskell" data-trim data-line-numbers=|9-14>
+                {-# LANGUAGE LambdaCase #-}
+                {-# LANGUAGE TemplateHaskell #-}
+  
+                import Control.Lens
+                import Control.Lens.Internal.PrismTH (makePrisms)
+
+                ... --Code before
+                
+                makePrisms ''Json
+                
+                jsonInt :: Json
+                jsonInt = JsonInt { _i = 1 }
+                newJsonInt :: Json
+                newJsonInt = over _JsonInt (+ 1) jsonInt</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Prism In Scala...</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers>
+                sealed trait Json
+                case object JsonNull extends Json
+                case clase JsonString(value: String) extends Json
+                case clase JsonInt(value: Int) extends Json</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>We need to get an String from a Json or modify a Int</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers="|6-11|12-18">
+                sealed trait Json
+                case object JsonNull extends Json
+                case clase JsonString(value: String) extends Json
+                case clase JsonInt(value: Int) extends Json
+              
+                def getString(json: Json): Option[String] {
+                  json match {
+                    case JsonString(value) => Some(value)
+                    case _                 => None
+                  }
+                }
+                
+                def modifyInt(json: Json)(f: Int => Int): Json {
+                  json match {
+                    case ji @ JsonInt(value) => ji.copy(f(value))
+                    case _                   => json
+                  }
+                }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers>
+                import monocle.Prism
+
+                val stringPrism : Prism[Json, String] = Prism[Json, String] {
+                  case JsonString(value) => Some(value)
+                  case _                 => None
+                }(JsonString)
+                
+                val jsonString : Json = JsonString("string")
+                val getString : Option[String] = stringPrism.getOption(jsonString)</code></pre>
+          </section>
+          <section data-auto-animate>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers>
+                import monocle.Prism
+                import monocle.macros.{GenIso, GenPrism}
+              
+                val intPrism : Prism[Json, Int] = GenPrism[Json, JsonInt] composeIso GenIso[JsonInt, Int]
+                val jsonInt : Json = JsonInt(1)
+                val newJsonInt = (intPrism.modify(_ + 1)) (jsonInt)</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Prism In Kotlin...</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs kotlin" data-trim data-line-numbers>
+                sealed class Json
+                object JsonNull : Json
+                data clase JsonString(val value: String) : Json
+                data clase JsonInt(val value: Int) : Json</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>We need to get an String from a Json or modify a Int</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs kotlin" data-trim data-line-numbers=|3-7|9-12>
+                ... //Code before
+
+                fun getString(json: Json) : Option&lt;String&gt; =
+                  when(json) {
+                    is JsonString -> Some(json.value)
+                    else          -> None
+                  }
+              
+                fun modifyInt(json: Json, f: Int -> Int) : Json =
+                  when(json) {
+                    is JsonInt -> json.copy(f(json.value))
+                    else       -> json
+                  }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>We need to get an String from a Json or modify a Int</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs kotlin" data-trim data-line-numbers=|3-11|13-14>
+                ... //Code before
+
+                val stringPrism = Prism&lt;Json, String&gt = Prism(
+                  getOption = {
+                    when(it) {
+                      is JsonString -> Some(it.value)
+                      else          -> None
+                    }
+                  },
+                  reverseGet = { JsonString(it) }
+                )
+
+                val jsonString : Json = JsonString("string")
+                val getString : Option&lt;String&gt = stringPrism.getOption(jsonString)</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>We need to get an String from a Json or modify a Int</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs kotlin" data-trim data-line-numbers=|3-6|7-11|12-15|17-19>
+                  import arrow.optics.optics
+  
+                  @optics
+                  sealed class Json {
+                    companion object
+                  }
+                  object JsonNull : Json
+                  @optics
+                  data clase JsonString(val value: String) : Json {
+                    companion object
+                  }
+                  @optics
+                  data clase JsonInt(val value: Int) : Json{
+                    companion object
+                  }
+                  
+                  val intPrism : Prism&lt;Json, Int&gt = Json.jsonInt compose JsonInt.iso
+                  val jsonInt : Json = JsonInt(1)
+                  val newJsonInt : Json = intPrism.modify(jsonInt) { it + 1 }
+                </code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Case study</strong></h3>
+            <br>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Case study</strong></h3>
+            <br>
+            <p data-id="code-animation"> 
+              We need to create a <i>DSL</i> that allows us to write bank transactions in an explicit way.
+            </p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Case study</strong></h3>
+            <br>
+            <p data-id="code-animation"> 
+              We need to create a <i>DSL</i> that allows us to write bank transactions in an explicit way.
+            </p>
+            <br>
+            <h5 data-id="code-animation">How can we do it?</h5>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Case study</strong></h3>
+            <br>
+            <pre data-id="code-animation">
+                <code class="hljs kotlin" data-trim data-line-numbers=|1-1|3-5|7-7|8-11|13-13|14-17>
+                  module Financial.Dsl where
+
+                  data Expr = Literal { value :: Double }
+                    | Negative { neg :: Expr }
+                    | Add { a :: Expr, b :: Expr } deriving Show
+
+                  eval :: Expr -> Double
+                  eval exp = case exp of
+                    Literal v  -> v
+                    Negative e -> - eval e
+                    Add a b    -> eval a + eval b
+                    
+                  view :: Expr -> String
+                  view exp = case exp of
+                    Literal v  -> show v
+                    Negative e -> "(-"  ++ view e ++ ")"
+                    Add a b    -> "(" ++ view a ++ " + " ++ view b ++ ")"</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Case study</strong></h3>
+            <br>
+            <pre data-id="code-animation">
+                <code class="hljs kotlin" data-trim data-line-numbers=|1-1|3-3|5-9>
+                    module Main where
+
+                    import Financial.Dsl
+                    
+                    main :: IO ()
+                    main = do
+                      let result = Literal 200 `Add` Negative(Literal 100)
+                      print (eval result)
+                      print (view result)</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Case study</strong></h3>
+            <br>
+            <pre data-id="code-animation">
+                <code class="hljs kotlin" data-trim>
+                    module Main where
+
+                    import Financial.Dsl
+                    
+                    main :: IO ()
+                    main = do
+                      let result = Literal 200 `Add` Negative(Literal 100)
+                      print (eval result)
+                      print (view result)</code></pre>
+            <br>
+            <pre data-id="code-animation">
+              <code class="hljs kotlin" data-trim>
+                  100.0
+                  "(200.0 + (-100.0))"</code></pre>
+            </section>
+          <section>
+            <h3>If you need help, there are five resources.</h3>
+            <ul class="description">
+              <li><a href="https://hackage.haskell.org/package/lens " title="Lens">Haskell Lens</a></li>
+              <li><a href="https://www.optics.dev/Monocle/ " title="Monocle">Scala Monocle</a></li>
+              <li><a href="https://arrow-kt.io/docs/optics/dsl/" title="Arrow">Kotlin Arrow</a></li>
+              <li><a href="https://bow-swift.io/docs/optics/optics-overview/" title="Bow">Swift Bow</a></li>
+              <li><a href="https://immutables.github.io/" title="Immutables">Java Immutables</a></li>
+            </ul>
+          </section>
+          <section class="aligncenter">
+            <!-- .wrap = container (width: 90%) -->
+            <div class="wrap">
+              <h1><strong>Questions?</strong> </h1>
+          </section>
+          <section class="slide-bottom">
+            <div class="wrap">
+              <div class="content-right">
+                <h1>
+                  <strong>Thanks</strong>
+                </h1>
+                <p>Will Leyton <a href="https://github.com/dabliuw22">@dabliuw22</a>, Qohat Pretel<a href="https://github.com/qohat"> @qohat</a>.</p>
+              </div>
+              <!-- .end .content-right -->
+            </div>
+            <!-- .end .wrap -->
+          </section>
+      </div>
+      <!-- end article -->
+    </div>
+    <!-- end main -->
+
+   <!-- A global footer
+
+     <footer role="contentinfo">
+      <div class="wrap">
+        <p>An <a href="https://github.com/webslides/webslides">open source solution</a>, by <a href="https://twitter.com/webslides">@webslides</a>.</p>
+      </div>
+    </footer>  -->
+
+    <!-- Required -->
+    <!--script src="static/js/webslides.js"></script>
+    <script>
+      window.ws = new WebSlides();
+    </script-->
+    <script src="dist/reveal.js"></script>
+		<script src="plugin/zoom/zoom.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/search/search.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+
+			// Also available as an ES module, see:
+			// https://revealjs.com/initialization/
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				center: true,
+				hash: true,
+        slideNumber: true,
+        width: '100%',
+        height: '100%',
+        margin: 0.02,
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
+			});
+
+		</script>
+
+    <!-- OPTIONAL - svg-icons.js (fontastic.me - Font Awesome as svg icons) -->
+    <script defer src="static/js/svg-icons.js"></script>
+  </body>
+</html>
