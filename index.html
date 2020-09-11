@@ -917,7 +917,7 @@
           </section>
           <section data-auto-animate>
             <h3><strong>Case study</strong></h3>
-            <br>
+            <p>With Haskell ...</p>
             <pre data-id="code-animation">
                 <code class="hljs kotlin" data-trim data-line-numbers=|1-1|3-5|7-7|8-11|13-13|14-17>
                   module Financial.Dsl where
@@ -940,39 +940,103 @@
           </section>
           <section data-auto-animate>
             <h3><strong>Case study</strong></h3>
-            <br>
+            <p>With Haskell ...</p>
             <pre data-id="code-animation">
-                <code class="hljs kotlin" data-trim data-line-numbers=|1-1|3-3|5-9>
-                    module Main where
+              <code class="hljs kotlin" data-trim data-line-numbers=|1-1|3-3|5-9>
+                module Main where
 
-                    import Financial.Dsl
-                    
-                    main :: IO ()
-                    main = do
-                      let result = Literal 200 `Add` Negative(Literal 100)
-                      print (eval result)
-                      print (view result)</code></pre>
+                import Financial.Dsl
+                
+                main :: IO ()
+                main = do
+                  let result = Literal 200 `Add` Negative(Literal 100)
+                  print (eval result)
+                  print (view result)</code></pre>
           </section>
           <section data-auto-animate>
             <h3><strong>Case study</strong></h3>
-            <br>
+            <p>With Haskell ...</p>
             <pre data-id="code-animation">
                 <code class="hljs kotlin" data-trim>
-                    module Main where
+                  module Main where
 
-                    import Financial.Dsl
-                    
-                    main :: IO ()
-                    main = do
-                      let result = Literal 200 `Add` Negative(Literal 100)
-                      print (eval result)
-                      print (view result)</code></pre>
-            <br>
+                  import Financial.Dsl
+                  
+                  main :: IO ()
+                  main = do
+                    let result = Literal 200 `Add` Negative(Literal 100)
+                    print (eval result)
+                    print (view result)</code></pre>
             <pre data-id="code-animation">
               <code class="hljs kotlin" data-trim>
-                  100.0
-                  "(200.0 + (-100.0))"</code></pre>
+                100.0
+                "(200.0 + (-100.0))"</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Case study</strong></h3>
+            <p>With Scala 3 ...</p>
+            <pre data-id="code-animation">
+              <code class="hljs kotlin" data-trim data-line-numbers=|1-1|3-3|5-8|12-15|17-20>
+                package com.lulobank.financial
+
+                object Dsl {
+                  
+                  enum Expr:
+                    case Literal(value: Double)
+                    case Negative(neg: Expr)
+                    case Add(a: Expr, b: Expr)
+                  
+                  import Expr._
+                  
+                  def eval: Expr => Double =  expr => expr match
+                    case Literal(value) => value
+                    case Negative(e)    => - eval(e)
+                    case Add(a, b)      => eval(a) + eval(b)
+                  
+                  def view: Expr => String = expr => expr match
+                    case Literal(value) => value.toString
+                    case Negative(e)    => s"(-${view(e)})"
+                    case Add(a, b)      => s"(${view(a)} + ${view(b)})"
+                }</code></pre>
             </section>
+            <section data-auto-animate>
+              <h3><strong>Case study</strong></h3>
+              <p>With Scala 3 ...</p>
+              <pre data-id="code-animation">
+                <code class="hljs kotlin" data-trim data-line-numbers=|1-1|3-5|7-11>
+                  package com.lulobank
+
+                  import financial.Dsl.Expr._
+                  import financial.Dsl.eval
+                  import financial.Dsl.view
+                  
+                  object Main extends App {
+                    val result = Add(Literal(200), Negative(Literal(100)))
+                    println(eval(result))
+                    println(view(result))
+                  }</code></pre>
+            </section>
+            <section data-auto-animate>
+              <h3><strong>Case study</strong></h3>
+              <p>With Scala 3 ...</p>
+              <pre data-id="code-animation">
+                <code class="hljs kotlin" data-trim>
+                  package com.lulobank
+
+                  import financial.Dsl.Expr._
+                  import financial.Dsl.eval
+                  import financial.Dsl.view
+                  
+                  object Main extends App {
+                    val result = Add(Literal(200), Negative(Literal(100)))
+                    println(eval(result))
+                    println(view(result))
+                  }</code></pre>
+              <pre data-id="code-animation">
+                <code class="hljs kotlin" data-trim>
+                  100.0
+                  (200.0 + (-100.0))</code></pre>
+          </section>
           <section>
             <h3>If you need help, there are five resources.</h3>
             <ul class="description">
