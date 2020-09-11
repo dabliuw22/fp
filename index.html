@@ -143,22 +143,25 @@
           </p>
           </section>
           <section data-auto-animate>
+            <h3><strong>Inmutables</strong></h3>
             <pre data-id="code-animation">
               <code class="hljs haskell" data-trim data-line-numbers>
                 -- Haskell
                 data User = User { id :: String, username :: String }</code></pre>
           </section>
           <section data-auto-animate>
-          <pre data-id="code-animation">
-            <code class="hljs haskell" data-trim data-line-numbers>
-              -- Haskell
-              data User = User { id :: String, username :: String }</code></pre>
-          <pre data-id="code-animation">
-            <code class="hljs scala" data-trim data-line-numbers>
-              // Scala
-              case class User(id: String, username: String)</code></pre>
+            <h3><strong>Inmutables</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs haskell" data-trim data-line-numbers>
+                -- Haskell
+                data User = User { id :: String, username :: String }</code></pre>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers>
+                // Scala
+                case class User(id: String, username: String)</code></pre>
           </section>
           <section data-auto-animate>
+            <h3><strong>Inmutables</strong></h3>
             <pre data-id="code-animation">
               <code class="hljs haskell" data-trim data-line-numbers>
                 -- Haskell
@@ -173,6 +176,7 @@
                 data class User(val id: String, val username: String)</code></pre>
           </section>
           <section data-auto-animate>
+            <h3><strong>Inmutables</strong></h3>
             <pre data-id="code-animation">
               <code class="hljs haskell" data-trim data-line-numbers>
                 -- Haskell
@@ -196,53 +200,6 @@
                   abstract String username();
                 }</code></pre>
           </section>
-          <!--section data-auto-animate>
-            <h2 data-id="code-title">Pretty Code</h3>
-            <pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
-              import React, { useState } from 'react';
-  
-              function Example() {
-                const [count, setCount] = useState(0);
-  
-                return (
-                  ...
-                );
-              }
-            </code></pre>
-            <p>Code syntax highlighting courtesy of <a href="https://highlightjs.org/usage/">highlight.js</a>.</p>
-          </section>
-          <section data-auto-animate>
-            <h2 data-id="code-title">With animations</h3>
-            <pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers="|4,8-11|17|22-24"><script type="text/template">
-              import React, { useState } from 'react';
-  
-              function Example() {
-                const [count, setCount] = useState(0);
-  
-                return (
-                  <div>
-                    <p>You clicked {count} times</p>
-                    <button onClick={() => setCount(count + 1)}>
-                      Click me
-                    </button>
-                  </div>
-                );
-              }
-  
-              function SecondExample() {
-                const [count, setCount] = useState(0);
-  
-                return (
-                  <div>
-                    <p>You clicked {count} times</p>
-                    <button onClick={() => setCount(count + 1)}>
-                      Click me
-                    </button>
-                  </div>
-                );
-              }
-            </script></code></pre>
-          </section-->
           <section>
             <h3><strong>Algebraic Data Type - ADT</strong></h3>
             <br>
@@ -267,7 +224,6 @@
           </section>
           <section data-auto-animate>
             <h3><strong>Products</strong></h3>
-            <br>
             <pre data-id="code-animation">
                 <code class="hljs haskell" data-trim data-line-numbers>
                   -- Haskell
@@ -276,7 +232,6 @@
           </section>
           <section data-auto-animate>
             <h3><strong>Products</strong></h3>
-            <br>
             <pre data-id="code-animation">
                 <code class="hljs haskell" data-trim data-line-numbers>
                   -- Haskell
@@ -286,6 +241,50 @@
                   // Scala
                   case class User(id: String, username: String)</code></pre>
             </pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Products</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs haskell" data-trim data-line-numbers>
+                -- Haskell
+                data User = User { id :: String, username :: String }</code></pre>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers>
+                // Scala
+                case class User(id: String, username: String)</code></pre>
+            <pre data-id="code-animation">
+              <code class="hljs kotlin" data-trim data-line-numbers>
+                // Kotlin
+                data class User(val id: String, val username: String)</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Products</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs haskell" data-trim data-line-numbers>
+                -- Haskell
+                data User = User { id :: String, username :: String }</code></pre>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers>
+                // Scala
+                case class User(id: String, username: String)</code></pre>
+            <pre data-id="code-animation">
+              <code class="hljs kotlin" data-trim data-line-numbers>
+                // Kotlin
+                data class User(val id: String, val username: String)</code></pre>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers>
+                // Java
+                import org.immutables.value.Value;
+
+                @Value.Immutable
+                abstract class AbstractUser {
+                  abstract String id();
+                  abstract String username();
+                }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Co-Products</strong></h3>
+            A sum type is a discriminated union of values, and can be thought of as an <code>OR</code> on types.
           </section>
           <section data-auto-animate>
             <h3><strong>Co-Products</strong></h3>
