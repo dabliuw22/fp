@@ -742,7 +742,7 @@
                   }
 
                   public A set(A taget, B value) {
-                    return setter.apply(targer).apply(value);
+                    return modify(target, ignored -> value);
                   }
 
                   public A modify(A taget, Function&lt;B, B&gt; f) {
