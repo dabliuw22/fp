@@ -652,24 +652,23 @@
           <section data-auto-animate>
             <h3><strong>With Java :( ...</strong></h3>
             <pre data-id="code-animation">
-              <code class="hljs java" data-trim data-line-numbers="|1-4|5-8|9-13|14-17|18-22">
+              <code class="hljs java" data-trim data-line-numbers="|1-3|4-6|7-12|13-15|16-20">
+                @NoBuilder
                 @Value.Immutable
-                abstract class AbstractAddressStreet {
-                  abstract String value();
-                }
+                abstract class AbstractAddressStreet extends Primitive&lt;String&gt {}
+                @NoBuilder
                 @Value.Immutable
-                abstract class AbstractCityName {
-                  abstract String value();
-                }
+                abstract class AbstractCityName extends Primitive&lt;String&gt {}
+                @Builder
                 @Value.Immutable
                 abstract class AbstractAddress {
                   abstract AddressStreet street();
                   abstract CityName city()
                 }
+                @NoBuilder
                 @Value.Immutable
-                abstract class AbstractPersonName {
-                  abstract String value();
-                }
+                abstract class AbstractPersonName extends Primitive&lt;String&gt {}
+                @Builder
                 @Value.Immutable
                 abstract class AbstractPerson { 
                   abstract PersonName name();
@@ -684,12 +683,12 @@
                 ...
 
                 Person person = Person.builder()
-                                .name(PersonName.builder().value("Nick Doe").build())
-                                .address(Address.builder()
-                                  .street(AddressStreet.builder().value("Wall Street").build())
-                                  .city(CityName.builder().value("new York").build())
-                                  .build())
-                                .build();
+                  .name(PersonName.of("Nick Doe"))
+                  .address(Address.builder()
+                    .street(AddressStreet.of("Wall Street"))
+                    .city(CityName.of("new York"))
+                    .build())
+                  .build();
                 </code></pre>
           </section>
           <section data-auto-animate>
@@ -702,9 +701,75 @@
                 Person person = ... // With cityName.value = "new York"
 
                 Person newPerson = person
-                                    .withAddress(person.address()
-                                      .withCity(person.city()
-                                        .withValue(person.city().value().capitalize())));
+                  .withAddress(person.address()
+                    .withCity(person.city()
+                      .withValue(capitalize(person.city().value()))));
+                </code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>We need to change a value :( ...</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers="|3-5|14-18|20-22|24-26|28-30|32-34|36-38|40-46">
+                public class Lens&lt;A, B&gt {
+
+                  private final Function&lt;A, B&gt; getter;
+
+                  private final Function&lt;A, Function&lt;B, A&gt;&gt; setter;
+
+                  private Lens(
+                      Function&lt;A, B&gt; getter, 
+                      Function&lt;A, Function&lt;B, A&gt;&gt; setter) {
+                    this.getter = getter;
+                    this.setter = setter;
+                  }
+
+                  public static &lt;A, B&gt; Lens&lt;A, B&gt; of(
+                      Function&lt;A, B&gt; getter,
+                      Function&lt;A, Function&lt;B, A&gt;&gt; setter) {
+                    return new Lens<>(getter, setter);
+                  }
+
+                  public Function&lt;A, B&gt; getter() {
+                    return getter;
+                  }
+
+                  public Function&lt;A, Function&lt;B, A&gt;&gt; setter() {
+                    return setter;
+                  }
+
+                  public B get(A target) {
+                    return getter.apply(A);
+                  }
+
+                  public A set(A taget, B value) {
+                    return setter.apply(targer).apply(value);
+                  }
+
+                  public A modify(A taget, Function&lt;B, B&gt; f) {
+                    return setter.apply(targer).apply(f(get(target)));
+                  }
+
+                  public &lt;C&gt; Lens&lt;A, C&gt; compose(Lens&lt;B, C&gt; other) {
+                    return Lens.of(
+                      (A a) -> other.getter().apply(this.getter.apply(a)),
+                      (A a) -> ((C c) -> this.set(
+                        a, other.setter.apply(this.get(a)).apply(c)))
+                    )
+                  }
+                }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>We need to change a value :( ...</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers="3-6|8-8">
+                Person person = ... // With cityName.value = "new York"
+
+                Lens&lt;Person, Address&gt; address = Lens.of(Person::address, p -> (p::withAddress));
+                Lens&lt;Address, CityName&gt; city = Lens.of(Address::city, a -> (a::withCity));
+                Lens&lt;CityName, String&gt; name = Lens.of(CityName::value, n -> (CityName::of));
+                Lens&lt;Person, String&gt; compose = address.compose(city).compose(name);
+
+                Person newPersonTwo = compose.modify(person, this::capitalize);
                 </code></pre>
           </section>
           <section data-auto-animate>
