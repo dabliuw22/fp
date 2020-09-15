@@ -1195,12 +1195,57 @@
             <br>
             <p>Exceptions break the flow</p>
             <p>Exceptions are not type-safe</p>
+            <p>Partial functions</p>
+            <pre data-id="code-animation">
+              <code class="hljs kotlin" data-trim>
+                Function&lt;String, User&gt; makeUser = email -> {
+                  if (!isValid(email)) throw new InvalidEmailException("Boom...");
+                  return User.builder()
+                    .id(Id.generate())
+                    .email(email)
+                    .build();
+                };</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Error Effects</strong></h3>
+            <br>
+            <p>Exceptions break the flow</p>
+            <p>Exceptions are not type-safe</p>
+            <p>Partial functions</p>
             <p>If exceptions aren’t used in functional code, what is used instead?.</p>
           </section>
           <section data-auto-animate>
             <h3><strong>Error Effects</strong></h3>
             <br>
             <p>If exceptions aren’t used in functional code, what is used instead?.</p>
+            <br>
+            <p>Exceptions should be used only for error handling</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Error Effects</strong></h3>
+            <br>
+            <p>If exceptions aren’t used in functional code, what is used instead?.</p>
+            <br>
+            <p>Exceptions should be used only for error handling</p>
+            <p>Explicit error in the signature</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Error Effects</strong></h3>
+            <br>
+            <p>If exceptions aren’t used in functional code, what is used instead?.</p>
+            <br>
+            <p>Exceptions should be used only for error handling</p>
+            <p>Explicit error in the signature</p>
+            <p>Total functions</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Error Effects</strong></h3>
+            <br>
+            <p>If exceptions aren’t used in functional code, what is used instead?.</p>
+            <br>
+            <p>Exceptions should be used only for error handling</p>
+            <p>Explicit error in the signature</p>
+            <p>Total functions</p>
             <pre data-id="code-animation">
               <code class="hljs kotlin" data-trim>
                 Function&lt;String, Either&lt;InvalidEmailException, User&gt;&gt; makeUser = email -> {
@@ -1220,6 +1265,45 @@
                   .map(Ok::apply)
                   .recovery(InvalidEmailException.class, BadRequest::apply)
                   .recovery(InternalError::apply);</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Error Effects</strong></h3>
+            <br>
+            <pre data-id="code-animation">
+              <code class="hljs kotlin" data-trim>
+                makeUser.apply(email)
+                  .flatMap(this::save)
+                  .map(Ok::apply)
+                  .recovery(InvalidEmailException.class, BadRequest::apply)
+                  .recovery(InternalError::apply);</code></pre>
+            <p>Composition</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Error Effects</strong></h3>
+            <br>
+            <pre data-id="code-animation">
+              <code class="hljs kotlin" data-trim>
+                makeUser.apply(email)
+                  .flatMap(this::save)
+                  .map(Ok::apply)
+                  .recovery(InvalidEmailException.class, BadRequest::apply)
+                  .recovery(InternalError::apply);</code></pre>
+            <p>Composition</p>
+            <p>Error handling</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Error Effects</strong></h3>
+            <br>
+            <pre data-id="code-animation">
+              <code class="hljs kotlin" data-trim>
+                makeUser.apply(email)
+                  .flatMap(this::save)
+                  .map(Ok::apply)
+                  .recovery(InvalidEmailException.class, BadRequest::apply)
+                  .recovery(InternalError::apply);</code></pre>
+              <p>Composition</p>
+              <p>Error handling</p>
+              <p>Avoid partial functions</p>
           </section>
           <section data-auto-animate>
             <h3><strong>Null Effects</strong></h3>
