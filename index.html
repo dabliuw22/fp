@@ -1165,7 +1165,7 @@
             <br>
             <p>Exceptions break the flow</p>
             <pre data-id="code-animation">
-              <code class="hljs kotlin" data-trim>
+              <code class="hljs java" data-trim>
                 Function&lt;String, User&gt; makeUser = email -> {
                   if (!isValid(email)) throw new InvalidEmailException("Boom...");
                   return User.builder()
@@ -1180,7 +1180,7 @@
             <p>Exceptions break the flow</p>
             <p>Exceptions are not type-safe</p>
             <pre data-id="code-animation">
-              <code class="hljs kotlin" data-trim>
+              <code class="hljs java" data-trim>
                 // String -> User
                 Function&lt;String, User&gt; makeUser = email -> {
                   if (!isValid(email)) throw new InvalidEmailException("Boom...");
@@ -1197,7 +1197,7 @@
             <p>Exceptions are not type-safe</p>
             <p>Partial functions</p>
             <pre data-id="code-animation">
-              <code class="hljs kotlin" data-trim>
+              <code class="hljs java" data-trim>
                 Function&lt;String, User&gt; makeUser = email -> {
                   if (!isValid(email)) throw new InvalidEmailException("Boom...");
                   return User.builder()
@@ -1212,19 +1212,19 @@
             <p>Exceptions break the flow</p>
             <p>Exceptions are not type-safe</p>
             <p>Partial functions</p>
-            <p>If exceptions aren’t used in functional code, what is used instead?.</p>
+            <p>If exceptions aren’t used in functional code, what is used instead?</p>
           </section>
           <section data-auto-animate>
             <h3><strong>Error Effects</strong></h3>
             <br>
-            <p>If exceptions aren’t used in functional code, what is used instead?.</p>
+            <p>If exceptions aren’t used in functional code, what is used instead?</p>
             <br>
             <p>Exceptions should be used only for error handling</p>
           </section>
           <section data-auto-animate>
             <h3><strong>Error Effects</strong></h3>
             <br>
-            <p>If exceptions aren’t used in functional code, what is used instead?.</p>
+            <p>If exceptions aren’t used in functional code, what is used instead?</p>
             <br>
             <p>Exceptions should be used only for error handling</p>
             <p>Explicit error in the signature</p>
@@ -1232,7 +1232,7 @@
           <section data-auto-animate>
             <h3><strong>Error Effects</strong></h3>
             <br>
-            <p>If exceptions aren’t used in functional code, what is used instead?.</p>
+            <p>If exceptions aren’t used in functional code, what is used instead?</p>
             <br>
             <p>Exceptions should be used only for error handling</p>
             <p>Explicit error in the signature</p>
@@ -1241,13 +1241,13 @@
           <section data-auto-animate>
             <h3><strong>Error Effects</strong></h3>
             <br>
-            <p>If exceptions aren’t used in functional code, what is used instead?.</p>
+            <p>If exceptions aren’t used in functional code, what is used instead?</p>
             <br>
             <p>Exceptions should be used only for error handling</p>
             <p>Explicit error in the signature</p>
             <p>Total functions</p>
             <pre data-id="code-animation">
-              <code class="hljs kotlin" data-trim>
+              <code class="hljs java" data-trim>
                 Function&lt;String, Either&lt;InvalidEmailException, User&gt;&gt; makeUser = email -> {
                   return isValid(email) ? Either.right(User.builder()
                     .id(Id.generate())
@@ -1259,7 +1259,7 @@
             <h3><strong>Error Effects</strong></h3>
             <br>
             <pre data-id="code-animation">
-              <code class="hljs kotlin" data-trim>
+              <code class="hljs java" data-trim>
                 makeUser.apply(email)
                   .flatMap(this::save)
                   .map(Ok::apply)
@@ -1270,7 +1270,7 @@
             <h3><strong>Error Effects</strong></h3>
             <br>
             <pre data-id="code-animation">
-              <code class="hljs kotlin" data-trim>
+              <code class="hljs java" data-trim>
                 makeUser.apply(email)
                   .flatMap(this::save)
                   .map(Ok::apply)
@@ -1282,7 +1282,7 @@
             <h3><strong>Error Effects</strong></h3>
             <br>
             <pre data-id="code-animation">
-              <code class="hljs kotlin" data-trim>
+              <code class="hljs java" data-trim>
                 makeUser.apply(email)
                   .flatMap(this::save)
                   .map(Ok::apply)
@@ -1295,7 +1295,7 @@
             <h3><strong>Error Effects</strong></h3>
             <br>
             <pre data-id="code-animation">
-              <code class="hljs kotlin" data-trim>
+              <code class="hljs java" data-trim>
                 makeUser.apply(email)
                   .flatMap(this::save)
                   .map(Ok::apply)
@@ -1308,8 +1308,98 @@
           <section data-auto-animate>
             <h3><strong>Null Effects</strong></h3>
             <br>
-            <p>An alternative to object-oriented design. Both try to solve 
-            business problems helping to reduce defects and cost of maintenance.</p>
+            <p><code>null</code> generates errors: <code>NullPointerException</code></p>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim>
+                User makeUser(String email) {
+                  return !isValid(email) ? null : User.builder()
+                    .id(Id.generate())
+                    .email(email)
+                    .build();
+                }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Null Effects</strong></h3>
+            <br>
+            <p><code>null</code> generates errors: <code>NullPointerException</code></p>
+            <p><code>null</code> is not a value</p>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim>
+                User makeUser(String email) {
+                  return !isValid(email) ? null : User.builder()
+                    .id(Id.generate())
+                    .email(email)
+                    .build();
+                }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Null Effects</strong></h3>
+            <br>
+            <p><code>null</code> generates errors: <code>NullPointerException</code></p>
+            <p><code>null</code> is not a value</p>
+            <p>How do we avoid <code>null</code>?</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Null Effects</strong></h3>
+            <br>
+            <p>How do we avoid <code>null</code>?</p>
+            <br>
+            <p>don't return null</p>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim>
+                Function&lt;String, Option&lt;User&gt; makeUser = email -> {
+                  return isValid(email) ? Option.some(User.builder()
+                    .id(Id.generate())
+                    .email(email)
+                    .build()) : Option.none();
+                };</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Null Effects</strong></h3>
+            <br>
+            <p>How do we avoid <code>null</code>?</p>
+            <br>
+            <p>Do not set <code>null</code></p>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers=|1-13|15-18>
+                @Builder
+                @Value.Immutable
+                public abstract class AbstractUser {
+
+                  abstract String id();
+
+                  abstract String email();
+
+                  @Value.Default
+                  public Option&lt;String&gt; name() {
+                    return Option.none();
+                  }
+                }
+
+                User user = User.builder()
+                  .id(userId)
+                  .email(userEmail)
+                  .build();</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Null Effects</strong></h3>
+            <br>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim>
+                makeUser.apply(email)
+                  .flatMap(this::save);</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Null Effects</strong></h3>
+            <br>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim>
+                makeUser.apply(email)
+                  .flatMap(this::save);</code></pre>
+            <br>
+            <p>Composition</p>
+            <p>Error handling</p>
+            <p>Pattern matching decomposition</p>
           </section>
           <section data-auto-animate>
             <h3><strong>Side Effects</strong></h3>
