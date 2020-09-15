@@ -1112,6 +1112,127 @@
               <li><a href="https://immutables.github.io/" title="Immutables">Java Immutables</a></li>
             </ul>
           </section>
+          <section data-auto-animate>
+            <h3><strong>Functions</strong></h3>
+            <br>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Effects</strong></h3>
+            <br>
+            <p>Functional programming (FP) is based on a simple premise:</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Effects</strong></h3>
+            <br>
+            <p>Functional programming (FP) is based on a simple premise:</p>
+            <i>Construct our programs using only pure functions.</i>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Effects</strong></h3>
+            <br>
+            <p>Is an action that does not influence the result of a function.</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Effects</strong></h3>
+            <br>
+            <p>Is an action that does not influence the result of a function.</p>
+            <ul>
+              <li>
+                <p>Modifying a variable</p>
+              </li>
+              <li>
+                <p>Setting a field on an ADT</p>
+              </li>
+              <li>
+                <p>Throwing an exception</p>
+              </li>
+              <li>
+                <p>Printing to the console or reading user input</p>
+              </li>
+              <li>
+                <p>Operations in DB</p>
+              </li>
+              <li>
+                <p>Return null</p>
+              </li>
+              <li>
+                <p>Read a file</p>
+              </li>
+            </ul>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Error Effects</strong></h3>
+            <br>
+            <p>Exceptions break the flow</p>
+            <pre data-id="code-animation">
+              <code class="hljs kotlin" data-trim>
+                Function&lt;String, User&gt; makeUser = email -> {
+                  if (!isValid(email)) throw new InvalidEmailException("Boom...");
+                  return User.builder()
+                    .id(Id.generate())
+                    .email(email)
+                    .build();
+                };</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Error Effects</strong></h3>
+            <br>
+            <p>Exceptions break the flow</p>
+            <p>Exceptions are not type-safe</p>
+            <pre data-id="code-animation">
+              <code class="hljs kotlin" data-trim>
+                // String -> User
+                Function&lt;String, User&gt; makeUser = email -> {
+                  if (!isValid(email)) throw new InvalidEmailException("Boom...");
+                  return User.builder()
+                    .id(Id.generate())
+                    .email(email)
+                    .build();
+                };</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Error Effects</strong></h3>
+            <br>
+            <p>Exceptions break the flow</p>
+            <p>Exceptions are not type-safe</p>
+            <p>If exceptions aren’t used in functional code, what is used instead?.</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Error Effects</strong></h3>
+            <br>
+            <p>If exceptions aren’t used in functional code, what is used instead?.</p>
+            <pre data-id="code-animation">
+              <code class="hljs kotlin" data-trim>
+                Function&lt;String, Either&lt;InvalidEmailException, User&gt;&gt; makeUser = email -> {
+                  return isValid(email) ? Either.right(User.builder()
+                    .id(Id.generate())
+                    .email(email)
+                    .build()) : Either.left(new InvalidEmailException("Boom..."));
+                };</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Error Effects</strong></h3>
+            <br>
+            <pre data-id="code-animation">
+              <code class="hljs kotlin" data-trim>
+                makeUser.apply(email)
+                  .flatMap(this::save)
+                  .map(Ok::apply)
+                  .recovery(InvalidEmailException.class, BadRequest::apply)
+                  .recovery(InternalError::apply);</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Null Effects</strong></h3>
+            <br>
+            <p>An alternative to object-oriented design. Both try to solve 
+            business problems helping to reduce defects and cost of maintenance.</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Side Effects</strong></h3>
+            <br>
+            <p>An alternative to object-oriented design. Both try to solve 
+            business problems helping to reduce defects and cost of maintenance.</p>
+          </section>
           <section class="aligncenter">
             <!-- .wrap = container (width: 90%) -->
             <div class="wrap">
