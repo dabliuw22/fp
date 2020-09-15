@@ -1400,12 +1400,113 @@
             <p>Composition</p>
             <p>Error handling</p>
             <p>Pattern matching decomposition</p>
+            <p>Total functions</p>
           </section>
           <section data-auto-animate>
-            <h3><strong>Side Effects</strong></h3>
+            <h3><strong>External Effects</strong></h3>
             <br>
-            <p>An alternative to object-oriented design. Both try to solve 
-            business problems helping to reduce defects and cost of maintenance.</p>
+            <p>Connect to databases</p>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim>
+                User findBy(String id) {
+                  return Decoder.decode(Jdbc.first(query));
+                }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>External Effects</strong></h3>
+            <br>
+            <p>Connect to databases</p>
+            <p>Http services</p>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim>
+                FraudInfo getFraudInfo(String id) {
+                  return Http.post(id);
+                }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>External Effects</strong></h3>
+            <br>
+            <p>Connect to databases</p>
+            <p>Http services</p>
+            <p>message brokers</p>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim>
+                RecordInfo send(Message message) {
+                  return KafkaProducer.send(message);
+                }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>External Effects</strong></h3>
+            <br>
+            <p>Connect to databases</p>
+            <p>Http services</p>
+            <p>message brokers</p>
+            <p>How can we solve this?</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>External Effects</strong></h3>
+            <br>
+            <p>How can we solve this?</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>External Effects</strong></h3>
+            <br>
+            <p>How can we solve this?</p>
+            <br>
+            <p>Delegate responsibility for execution</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>External Effects</strong></h3>
+            <br>
+            <p>How can we solve this?</p>
+            <br>
+            <p>Delegate responsibility for execution</p>
+            <p>Bounded functions</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>External Effects</strong></h3>
+            <br>
+            <p>How can we solve this?</p>
+            <br>
+            <p>Delegate responsibility for execution</p>
+            <p>Bounded functions</p>
+            <p>Think in values</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>External Effects</strong></h3>
+            <br>
+            <p>How can we solve this?</p>
+            <br>
+            <p>Delegate responsibility for execution</p>
+            <p>Bounded functions</p>
+            <p>Think in values</p>
+            <p>Interpreter</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>External Effects</strong></h3>
+            <br>
+            <p>How can we solve this?</p>
+            <br>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers=|1-8|10-18>
+                sealed abstract class IO[+A] {
+                  final def map[B](f: A => B): IO[B] = ???
+                  final def flatMap[B](f: A => IO[B]): IO[B] = ???
+                  final def unsafeRunSync(): A = ???
+                  final def unsafeRunAsync(cb: Either[Throwable, A] => Unit): Unit = ???
+                  final def guarantee(finalizer: IO[Unit]): IO[A] = ???
+                  final def handleErrorWith[B >: A](f: Throwable => IO[B]): IO[B] = ???
+                }
+
+                object IO {
+                  def delay[A](body: => A): IO[A] = ???
+                  def pure[A](a: A): IO[A] = ???
+                  def async[A](c: (Either[Throwable, A] => Unit) => Unit): IO[A] = ???
+                  def raiseError[A](e: Throwable): IO[A] = ???
+                  def fromFuture[A](iof: IO[Future[A]])(implicit cs: ContextShift[IO]): IO[A] = ???
+                  def fromEither[A](e: Either[Throwable, A]): IO[A] = ???
+                  def fromOption[A](option: Option[A])(orElse: => Throwable): IO[A] = ???
+                }</code></pre>
           </section>
           <section class="aligncenter">
             <!-- .wrap = container (width: 90%) -->
