@@ -1480,6 +1480,17 @@
             <p>Delegate responsibility for execution</p>
             <p>Bounded functions</p>
             <p>Think in values</p>
+            <p>Lazy evaluation</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>External Effects</strong></h3>
+            <br>
+            <p>How can we solve this?</p>
+            <br>
+            <p>Delegate responsibility for execution</p>
+            <p>Bounded functions</p>
+            <p>Think in values</p>
+            <p>Lazy evaluation</p>
             <p>Interpreter</p>
           </section>
           <section data-auto-animate>
@@ -1507,6 +1518,99 @@
                   def fromEither[A](e: Either[Throwable, A]): IO[A] = ???
                   def fromOption[A](option: Option[A])(orElse: => Throwable): IO[A] = ???
                 }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>External Effects</strong></h3>
+            <br>
+            <p>How can we solve this?</p>
+            <br>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers=|3-3|5-16|18-19>
+                object AsyncTask {
+
+                  type AsyncTask[A] = CompletionStage[A] with JvmFuture[A]
+
+                  private def liftAsyncTask[A, G <: AsyncTask[A]]
+                    (fa: IO[G])(implicit cs: ContextShift): IO[A] = 
+                    fa.flatMap { future =>
+                      IO.async { callback =>
+                        future.handle[Unit] { (v: A, t: Throwable) =>
+                          if (t != null) callback(Left(t))
+                          else callback(Right(v))
+                        }
+                        ()
+                      }
+                      .guarantee(cs.shift)
+                    }
+
+                  def fromAsyncTask[A](fa: IO[AsyncTask[A]]): IO[A] = 
+                    liftAsyncTask[A, AsyncTask[A]](fa)
+                    
+                }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>External Effects</strong></h3>
+            <br>
+            <p>How can we solve this?</p>
+            <br>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers=|5-13|16-23>
+                object NonBlockingJdbc {
+
+                  val executor: ExecutorService = ???
+                  
+                  def first[A](query: Query)(implicit decoder: Decoder[A], 
+                    cs: ContextShift): IO[Option[A]] =
+                    AsyncTask.fromAsyncTask(
+                      IO { 
+                        CompletableFuture
+                          .supplyAsync(() => Jdbc.first(query), executor)
+                      }
+                      .map(decoder.decode)
+                    )
+                }
+
+                final class UserRepository {
+
+                  implicit val decoder: Decoder[User] = ???
+
+                  private val query = ???
+
+                  def findBy(id: String)(implicit cs: ContextShift): IO[Option[User]] =
+                    NonBlockingJdbc.first[User](query)
+                }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>External Effects</strong></h3>
+            <br>
+            <p>How can we solve this?</p>
+            <br>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers=|7-10>
+                object Main extends App {
+
+                  implicit val cs: ContextShift = ???
+
+                  val userRepository = ???
+
+                  userRepository.findBy("id").unsafeRunAsync {
+                    case Right(result) => print(result)
+                    case Left(error)   => print(error)
+                  }
+                }</code></pre>
+          </section>
+          <section>
+            <h3><strong>External Effects</strong></h3>
+            <br>
+            <p>How can we solve this?</p>
+            <ul class="description">
+              <li><a href="https://hackage.haskell.org/package/base-4.14.0.0/docs/System-IO.html" title="Haskell">Haskell IO</a></li>
+              <li><a href="https://typelevel.org/cats-effect/datatypes/io.html" title="Cats">Cats IO</a></li>
+              <li><a href="https://monix.io/docs/current/eval/task.html" title="Monix">Monix Task</a></li>
+              <li><a href="https://zio.dev/docs/datatypes/datatypes_io" title="ZIO">ZIO IO</a></li>
+              <li><a href="https://arrow-kt.io/docs/fx/" title="Arrow">Arrow FX</a></li>
+              <li><a href="https://bow-swift.io/docs/effects/effects-overview/" title="Bow">Bow</a></li>
+            </ul>
           </section>
           <section class="aligncenter">
             <!-- .wrap = container (width: 90%) -->
