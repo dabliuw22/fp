@@ -1148,7 +1148,7 @@
               <a href="https://docs.scala-lang.org/overviews/scala-book/pure-functions.html">The Scala Book</a></small>
           </section>
           <section data-auto-animate>
-            <p>Pure</p>
+            <h3><strong>Pure</strong></h3>
             <pre data-id="code-animation">
               <code class="hljs java" data-trim data-line-numbers>
                 public static int sum(int a, int b) {
@@ -1156,13 +1156,14 @@
                 }</code></pre>
           </section>
           <section data-auto-animate>
-            <p>Pure</p>
+            <h3><strong>Pure</strong></h3>
             <pre data-id="code-animation">
               <code class="hljs java" data-trim data-line-numbers>
                 public static int sum(int a, int b) {
                     return a + b;
                 }</code></pre>
-            <p>Impure</p>
+            
+            <h3><strong>Impure</strong></h3>
             <pre data-id="code-animation">
               <code class="hljs java" data-trim data-line-numbers>
                 public static int sum(int a, int b) {
@@ -1173,7 +1174,7 @@
                 }</code></pre>
           </section>
           <section data-auto-animate>
-            <p>Impure</p>
+            <h3><strong>Impure</strong></h3>
             <pre data-id="code-animation">
               <code class="hljs java" data-trim data-line-numbers>
                 public static MyClass toMyClass(FromClass fromClass) {
@@ -1183,7 +1184,7 @@
                             .monthlyIncome(someDbAdapter.getUserMonthlyIncome(fromClass.getUserId().getValue()))
                             .build();
                 }</code></pre>
-            <p>Pure</p>
+            <h3><strong>Pure</strong></h3>
             <pre data-id="code-animation">
               <code class="hljs java" data-trim data-line-numbers>
                 public static MyClass toMyClass(FromClass fromClass, MonthlyIncome monthlyIncome) {
@@ -1195,7 +1196,7 @@
                 }</code></pre>
           </section>
           <section data-auto-animate>
-            <p>Inpure</p>
+            <h3><strong>Impure</strong></h3>
             <pre data-id="code-animation">
               <code class="hljs java" data-trim data-line-numbers>
                 public class Application {
@@ -1210,7 +1211,7 @@
                 }</code></pre>
           </section>
           <section data-auto-animate>
-            <p>Inpure</p>
+            <h3><strong>Inpure</strong></h3>
             <pre data-id="code-animation">
               <code class="hljs java" data-trim data-line-numbers="|10-19">
                 public class Application {
@@ -1236,7 +1237,7 @@
                 }</code></pre>
           </section>
           <section data-auto-animate>
-            <p>Inpure</p>
+            <h3><strong>Inpure</strong></h3>
             <pre data-id="code-animation">
               <code class="hljs java" data-trim data-line-numbers=|15-28|2-13>
                   public class Application {
@@ -1270,7 +1271,7 @@
                   }</code></pre>
           </section>
           <section data-auto-animate>
-            <p>Pure</p>
+            <h3><strong>Pure</strong></h3>
             <pre data-id="code-animation">
               <code class="hljs java" data-trim data-line-numbers>
                   public class Application {
@@ -1285,7 +1286,7 @@
                   }</code></pre>
           </section>
           <section data-auto-animate>
-            <p>Pure</p>
+            <h3><strong>Pure</strong></h3>
             <pre data-id="code-animation">
               <code class="hljs java" data-trim data-line-numbers=|11-13|15-17|19-20>
                   public class Application {
@@ -1311,7 +1312,7 @@
                   }</code></pre>
           </section>
           <section data-auto-animate>
-            <p>Pure</p>
+            <h3><strong>Pure</strong></h3>
             <pre data-id="code-animation">
               <code class="hljs java" data-trim data-line-numbers=|10-15>
                   public class Application {
@@ -1389,6 +1390,9 @@
           </section>
           <section data-auto-animate>
             <h3><strong>Error Effects</strong></h3>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Error Effects</strong></h3>
             <br>
             <p>Exceptions break the flow</p>
             <pre data-id="code-animation">
@@ -1400,6 +1404,27 @@
                     .email(email)
                     .build();
                 };</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Error Effects</strong></h3>
+            <br>
+            <p>Exceptions break the flow</p>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim>
+                Function&lt;String, User&gt; makeUser = email -> {
+                  if (!isValid(email)) throw new InvalidEmailException("Boom...");
+                  return User.builder()
+                    .id(Id.generate())
+                    .email(email)
+                    .build();
+                };
+                
+                public Boolean isNewUser(User user) { ... }
+                
+                public String run(String email) {
+                  User user = makeUser.apply(email);
+                  return isNewUser(user) ? user.id() : ""
+                } </code></pre>
           </section>
           <section data-auto-animate>
             <h3><strong>Error Effects</strong></h3>
@@ -1533,6 +1558,51 @@
               <p>Avoid partial functions</p>
           </section>
           <section data-auto-animate>
+            <h3><strong>Error Effects - Tips</strong></h3>
+            <br>
+            <p>Never force with <code>get()</code></p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Error Effects - Tips</strong></h3>
+            <br>
+            <p>Never force with <code>get()</code></p>
+            <p>Sequence operations with monadic operators <code>flatMap()</code></p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Error Effects - Tips</strong></h3>
+            <br>
+            <p>Never force with <code>get()</code></p>
+            <p>Sequence operations with monadic operators <code>flatMap()</code></p>
+            <p>Use pattern matching or <code>fold()</code> to perform actions</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Error Effects - Tips</strong></h3>
+            <br>
+            <p>Never force with <code>get()</code></p>
+            <p>Sequence operations with monadic operators <code>flatMap()</code></p>
+            <p>Use pattern matching or <code>fold()</code> to perform actions</p>
+            <p>Avoid <code>peek()</code></p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Error Effects - Tips</strong></h3>
+            <br>
+            <p>Never force with <code>get()</code></p>
+            <p>Sequence operations with monadic operators <code>flatMap()</code></p>
+            <p>Use pattern matching or <code>fold()</code> to perform actions</p>
+            <p>Avoid <code>peek()</code></p>
+            <p>Only use to handle error effects</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Error Effects - Tips</strong></h3>
+            <br>
+            <p>Never force with <code>get()</code></p>
+            <p>Sequence operations with monadic operators <code>flatMap()</code></p>
+            <p>Use pattern matching or <code>fold()</code> to perform actions</p>
+            <p>Avoid <code>peek()</code></p>
+            <p>Only use to handle error effects</p>
+            <p>Combine with other types of effects</p>
+          </section>
+          <section data-auto-animate>
             <h3><strong>Null Effects</strong></h3>
             <br>
             <p><code>null</code> generates errors: <code>NullPointerException</code></p>
@@ -1551,13 +1621,24 @@
             <p><code>null</code> generates errors: <code>NullPointerException</code></p>
             <p><code>null</code> is not a value</p>
             <pre data-id="code-animation">
-              <code class="hljs java" data-trim>
+              <code class="hljs java" data-trim data-line-numbers=|1-6|8-10|12-16>
                 User makeUser(String email) {
                   return !isValid(email) ? null : User.builder()
                     .id(Id.generate())
                     .email(email)
                     .build();
-                }</code></pre>
+                }
+                
+                User save(User user) {
+                  return user != null ? Jdbc.save(user): null;
+                }
+
+                Response run(String email) {
+                  User user = makeUser(email);
+                  User savedUder = save(user);
+                  return Objects.isNull(savedUder)? BadRequest(): Ok(savedUder);
+                }
+                </code></pre>
           </section>
           <section data-auto-animate>
             <h3><strong>Null Effects</strong></h3>
@@ -1574,7 +1655,7 @@
             <p>don't return null</p>
             <pre data-id="code-animation">
               <code class="hljs java" data-trim>
-                Function&lt;String, Option&lt;User&gt; makeUser = email -> {
+                Function&lt;String, Option&lt;User&gt;&gt; makeUser = email -> {
                   return isValid(email) ? Option.some(User.builder()
                     .id(Id.generate())
                     .email(email)
@@ -1628,6 +1709,62 @@
             <p>Error handling</p>
             <p>Pattern matching decomposition</p>
             <p>Total functions</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Null Effects - Tips</strong></h3>
+            <br>
+            <p>Never force with <code>get()</code></p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Null Effects - Tips</strong></h3>
+            <br>
+            <p>Never force with <code>get()</code></p>
+            <p>Using default values</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Null Effects - Tips</strong></h3>
+            <br>
+            <p>Never force with <code>get()</code></p>
+            <p>Using default values</p>
+            <p>Sequence operations with monadic operators <code>flatMap()</code></p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Null Effects - Tips</strong></h3>
+            <br>
+            <p>Never force with <code>get()</code></p>
+            <p>Using default values</p>
+            <p>Sequence operations with monadic operators <code>flatMap()</code></p>
+            <p>Use pattern matching or <code>fold()</code> to perform actions</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Null Effects - Tips</strong></h3>
+            <br>
+            <p>Never force with <code>get()</code></p>
+            <p>Using default values</p>
+            <p>Sequence operations with monadic operators <code>flatMap()</code></p>
+            <p>Use pattern matching or <code>fold()</code> to perform actions</p>
+            <p>Avoid <code>peek()</code>, <code>ifPresent()</code></p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Null Effects - Tips</strong></h3>
+            <br>
+            <p>Never force with <code>get()</code></p>
+            <p>Using default values</p>
+            <p>Sequence operations with monadic operators <code>flatMap()</code></p>
+            <p>Use pattern matching or <code>fold()</code> to perform actions</p>
+            <p>Avoid <code>peek()</code>, <code>ifPresent()</code></p>
+            <p>Only use to handle <code>null</code> effects</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Null Effects - Tips</strong></h3>
+            <br>
+            <p>Never force with <code>get()</code></p>
+            <p>Using default values</p>
+            <p>Sequence operations with monadic operators <code>flatMap()</code></p>
+            <p>Use pattern matching or <code>fold()</code> to perform actions</p>
+            <p>Avoid <code>peek()</code>, <code>ifPresent()</code></p>
+            <p>Only use to handle <code>null</code> effects</p>
+            <p>Combine with other types of effects</p>
           </section>
           <section data-auto-animate>
             <h3><strong>External Effects</strong></h3>
@@ -1718,6 +1855,18 @@
             <p>Bounded functions</p>
             <p>Think in values</p>
             <p>Lazy evaluation</p>
+            <p>Composition</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>External Effects</strong></h3>
+            <br>
+            <p>How can we solve this?</p>
+            <br>
+            <p>Delegate responsibility for execution</p>
+            <p>Bounded functions</p>
+            <p>Think in values</p>
+            <p>Lazy evaluation</p>
+            <p>Composition</p>
             <p>Interpreter</p>
           </section>
           <section data-auto-animate>
@@ -1791,7 +1940,7 @@
                     AsyncTask.fromAsyncTask(
                       IO { 
                         CompletableFuture
-                          .supplyAsync(() => Jdbc.first(query), executor)
+                          .supplyAsync(() => Jdbc.first(query), executor))
                       }
                       .map(decoder.decode)
                     )
@@ -1805,6 +1954,22 @@
 
                   def findBy(id: String)(implicit cs: ContextShift): IO[Option[User]] =
                     NonBlockingJdbc.first[User](query)
+                }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>External Effects</strong></h3>
+            <br>
+            <p>How can we solve this?</p>
+            <br>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers=|7-7>
+                object Main extends App {
+
+                  implicit val cs: ContextShift = ???
+
+                  val userRepository = ???
+
+                  userRepository.findBy("id")
                 }</code></pre>
           </section>
           <section data-auto-animate>
