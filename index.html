@@ -1173,38 +1173,175 @@
                 }</code></pre>
           </section>
           <section data-auto-animate>
-            <p>Pure</p>
-            <pre data-id="code-animation">
-              <code class="hljs java" data-trim data-line-numbers>
-                public static MyClass toMyClass(FromClass fromClass) {
-                    return MyClass.builder()
-                            .name(fromClass.getName())
-                            .lastName(fromClass.getLastName())
-                            .monthlyIncome(fromClass.getMonthlyIncome())
-                            .build();
-                }</code></pre>
             <p>Impure</p>
             <pre data-id="code-animation">
               <code class="hljs java" data-trim data-line-numbers>
                 public static MyClass toMyClass(FromClass fromClass) {
                     return MyClass.builder()
-                            .name(fromClass.getName())
-                            .lastName(fromClass.getLastName())
-                            .monthlyIncome(someDbAdapter.getUserMonthlyIncome(fromClass.getUserId()))
+                            .name(fromClass.getName().getValue())
+                            .lastName(fromClass.getLastName().getValue())
+                            .monthlyIncome(someDbAdapter.getUserMonthlyIncome(fromClass.getUserId().getValue()))
                             .build();
                 }</code></pre>
+            <p>Pure</p>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers>
+                public static MyClass toMyClass(FromClass fromClass, MonthlyIncome monthlyIncome) {
+                    return MyClass.builder()
+                            .name(fromClass.getName().getValue())
+                            .lastName(fromClass.getLastName().getValue())
+                            .monthlyIncome(monthlyIncome.getValue())
+                            .build();
+                }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <p>Inpure</p>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers>
+                public class Application {
+                  public static void main(String[] args) {
+                    List&lt;BigDecimal&gt; incomings = Arrays.asList(
+                        new BigDecimal(8000000), new BigDecimal(10000000),
+                        new BigDecimal(12000000), new BigDecimal(14000000),
+                        new BigDecimal(20000000), new BigDecimal(70000000), 
+                        new BigDecimal(6000000)
+                    );
+                  } 
+                }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <p>Inpure</p>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers="|10-19">
+                public class Application {
+                  public static void main(String[] args) {
+                    List&lt;BigDecimal&gt; incomings = Arrays.asList(
+                        new BigDecimal(8000000), new BigDecimal(10000000),
+                        new BigDecimal(12000000), new BigDecimal(14000000),
+                        new BigDecimal(20000000), new BigDecimal(70000000), 
+                        new BigDecimal(6000000)
+                    );
+
+                    List&lt;BigDecimal&gt; result = new ArrayList&lt;&gt;();
+
+                    for (BigDecimal i : incomings) {
+                        if(i.compareTo(10000000) > 0) {
+                          BigDecimal newValue = i.add(i.multiply(BigDecimal.valueOf(0.1)));
+                          saveInDb(newValue)
+                          result.add(newValue)
+                          logger.info("{}", i);
+                        }
+                    }
+                  }
+                }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <p>Inpure</p>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers=|15-28|2-13>
+                  public class Application {
+                    public static void main(String[] args) {
+                      List&lt;BigDecimal&gt; incomings = Arrays.asList(
+                          new BigDecimal(8000000), new BigDecimal(10000000),
+                          new BigDecimal(12000000), new BigDecimal(14000000),
+                          new BigDecimal(20000000), new BigDecimal(70000000), 
+                          new BigDecimal(6000000)
+                      );
+
+                      List&lt;BigDecimal&gt; result = this.myPurificationAttempt(incomings)
+
+                      // We could do whatever i want with my result --- Another impure function maybe? XD.
+                    }
+
+                    private List&lt;BigDecimal&gt; myPurificationAttempt(List&lt;BigDecimal&gt; incomings) {
+                      List&lt;BigDecimal&gt; result = new ArrayList&lt;&gt;();
+
+                      for (BigDecimal i : incomings) {
+                          if(i.compareTo(10000000) > 0) {
+                            BigDecimal newValue = i.add(i.multiply(BigDecimal.valueOf(0.1)));
+                            saveInDb(newValue)
+                            result.add(newValue)
+                            logger.info("{}", i);
+                          }
+                      }
+
+                      return result;
+                    }
+                  }</code></pre>
           </section>
           <section data-auto-animate>
             <p>Pure</p>
             <pre data-id="code-animation">
               <code class="hljs java" data-trim data-line-numbers>
-                public static MyClass toMyClass(FromClass fromClass) {
-                    return MyClass.builder()
-                            .name(fromClass.getName())
-                            .lastName(fromClass.getLastName())
-                            .monthlyIncome(fromClass.getMonthlyIncome())
-                            .build();
-                }</code></pre>
+                  public class Application {
+                    public static void main(String[] args) {
+                      List&lt;BigDecimal&gt; incomings = Arrays.asList(
+                          new BigDecimal(8000000), new BigDecimal(10000000),
+                          new BigDecimal(12000000), new BigDecimal(14000000),
+                          new BigDecimal(20000000), new BigDecimal(70000000), 
+                          new BigDecimal(6000000)
+                      );
+                    }
+                  }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <p>Pure</p>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers=|11-13|15-17|19-20>
+                  public class Application {
+                    public static void main(String[] args) {
+                      List&lt;BigDecimal&gt; incomings = Arrays.asList(
+                          new BigDecimal(8000000), new BigDecimal(10000000),
+                          new BigDecimal(12000000), new BigDecimal(14000000),
+                          new BigDecimal(20000000), new BigDecimal(70000000), 
+                          new BigDecimal(6000000)
+                      );
+                    }
+
+                    // BigDecimal -> Boolean
+                    static Function&lt;BigDecimal, Boolean&gt; filterAlotEarning =
+                            incoming -> incoming.compareTo(new BigDecimal(10000000)) > 0;
+
+                    // BigDecimal -> BigDecimal
+                    static Function&lt;BigDecimal, BigDecimal&gt; add1Percent =
+                            incoming -> incoming.add(incoming.multiply(BigDecimal.valueOf(0.1)));
+
+                    // BigDecimal -> BigDecimal
+                    static Function&lt;BigDecimal, BigDecimal&gt; saveInDb = //Some function with DB effect... 
+                  }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <p>Pure</p>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers=|10-15>
+                  public class Application {
+                    public static void main(String[] args) {
+                      List&lt;BigDecimal&gt; incomings = Arrays.asList(
+                          new BigDecimal(8000000), new BigDecimal(10000000),
+                          new BigDecimal(12000000), new BigDecimal(14000000),
+                          new BigDecimal(20000000), new BigDecimal(70000000), 
+                          new BigDecimal(6000000)
+                      );
+
+                      List&lt;BigDecimal&gt; result = incomings.stream()
+                                                .filter(inc -> filterAlotEarning.apply(inc))
+                                                .map(inc -> add1Percent.apply(inc))
+                                                .flatMap(inc -> Stream.of(saveInDb.apply(inc)))
+                                                .peek(i -> logger.info("{}", i))
+                                                .collect(Collectors.toList());
+                    }
+
+                    // BigDecimal -> Boolean
+                    static Function&lt;BigDecimal, Boolean&gt; filterAlotEarning =
+                            incoming -> incoming.compareTo(new BigDecimal(10000000)) > 0;
+
+                    // BigDecimal -> BigDecimal
+                    static Function&lt;BigDecimal, BigDecimal&gt; add1Percent =
+                            incoming -> incoming.add(incoming.multiply(BigDecimal.valueOf(0.1)));
+
+                    // BigDecimal -> BigDecimal
+                    static Function&lt;BigDecimal, BigDecimal&gt; saveInDb = //Some function with DB effect... 
+                  }</code></pre>
           </section>
           <section data-auto-animate>
             <h3><strong>Effects</strong></h3>
