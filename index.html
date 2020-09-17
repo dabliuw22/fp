@@ -1676,6 +1676,22 @@
             <p>How can we solve this?</p>
             <br>
             <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers=|7-7>
+                object Main extends App {
+
+                  implicit val cs: ContextShift = ???
+
+                  val userRepository = ???
+
+                  userRepository.findBy("id")
+                }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>External Effects</strong></h3>
+            <br>
+            <p>How can we solve this?</p>
+            <br>
+            <pre data-id="code-animation">
               <code class="hljs scala" data-trim data-line-numbers=|7-10>
                 object Main extends App {
 
