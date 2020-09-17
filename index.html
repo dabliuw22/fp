@@ -136,11 +136,11 @@
             <h3>Why that code is wrong?</h3>
           </section>
           <section>
-          <h3><strong>Inmutables</strong></h3>
-          <br>
-          <p> 
-            Functional programming uses <i>inmutable</i> data types, which are a better fit for concurrent applications and it is a guarantee for Referencial Transparency
-          </p>
+            <h3><strong>Inmutables</strong></h3>
+            <br>
+            <p> 
+              Functional programming uses <i>inmutable</i> data types, which are a better fit for concurrent applications and it is a guarantee for Referencial Transparency
+            </p>
           </section>
           <section data-auto-animate>
             <h3><strong>Inmutables</strong></h3>
@@ -1063,25 +1063,25 @@
                     case Negative(e)    => s"(-${view(e)})"
                     case Add(a, b)      => s"(${view(a)} + ${view(b)})"
                 }</code></pre>
-            </section>
-            <section data-auto-animate>
-              <h3><strong>Case study</strong></h3>
-              <p>With Scala 3 ...</p>
-              <pre data-id="code-animation">
-                <code class="hljs kotlin" data-trim data-line-numbers=|1-1|3-5|7-11>
-                  package com.lulobank
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Case study</strong></h3>
+            <p>With Scala 3 ...</p>
+            <pre data-id="code-animation">
+              <code class="hljs kotlin" data-trim data-line-numbers=|1-1|3-5|7-11>
+                package com.lulobank
 
-                  import financial.Dsl.Expr._
-                  import financial.Dsl.eval
-                  import financial.Dsl.view
-                  
-                  object Main extends App {
-                    val result = Add(Literal(200), Negative(Literal(100)))
-                    println(eval(result))
-                    println(view(result))
-                  }</code></pre>
-            </section>
-            <section data-auto-animate>
+                import financial.Dsl.Expr._
+                import financial.Dsl.eval
+                import financial.Dsl.view
+                
+                object Main extends App {
+                  val result = Add(Literal(200), Negative(Literal(100)))
+                  println(eval(result))
+                  println(view(result))
+                }</code></pre>
+          </section>
+          <section data-auto-animate>
               <h3><strong>Case study</strong></h3>
               <p>With Scala 3 ...</p>
               <pre data-id="code-animation">
@@ -1112,9 +1112,99 @@
               <li><a href="https://immutables.github.io/" title="Immutables">Java Immutables</a></li>
             </ul>
           </section>
-          <section data-auto-animate>
+          <section data-auto-animate data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
             <h3><strong>Functions</strong></h3>
-            <br>
+            <div class="r-hstack justify-center">
+              <div data-id="box1" style="background: purple; width: 200px; height: 30px; margin: 10px; border-radius: 5px;">
+                <small>Pure Functions</small>
+              </div>
+              <div data-id="box2" style="background: gray; width: 200px; height: 30px; margin: 10px; border-radius: 5px;">
+                <small>Inpure Functions</small>
+              </div>
+            </div>
+          </section>
+          <section data-auto-animate data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
+            <div class="r-hstack justify-center">
+              <div data-id="box1" data-auto-animate-delay="0" style="background: purple; width: 150px; height: 100px; margin: 10px;"></div>
+              <div data-id="box2" data-auto-animate-delay="0.1" style="background: gray; width: 150px; height: 100px; margin: 10px;"></div>
+            </div>
+            <h2 style="margin-top: 20px;">Functions</h2>
+          </section>
+          <section data-auto-animate data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
+            <div class="r-stack">
+              <div data-id="box2" style="background: gray; width: 300px; height: 300px; border-radius: 200px;"></div>
+              <div data-id="box1" style="background: purple; width: 200px; height: 200px; border-radius: 200px;"></div>
+            </div>
+            <h2 style="margin-top: 20px;">Functions</h2>
+          </section>
+          <section data-auto-animate data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
+            <div class="r-stack">
+              <div data-id="box2" style="background: gray; width: 300px; height: 300px; border-radius: 200px;"></div>
+              <div data-id="box1" style="background: purple; width: 200px; height: 200px; border-radius: 200px;"></div>
+            </div>
+            <h3><strong>Functions</strong></h3>
+            <small style="font-style: italic;">"Write the core of your application using pure functions,
+              and then write an impure “wrapper” around that core to interact with the outside world."
+              <a href="https://docs.scala-lang.org/overviews/scala-book/pure-functions.html">The Scala Book</a></small>
+          </section>
+          <section data-auto-animate>
+            <p>Pure</p>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers>
+                public static int sum(int a, int b) {
+                    return a + b;
+                }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <p>Pure</p>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers>
+                public static int sum(int a, int b) {
+                    return a + b;
+                }</code></pre>
+            <p>Impure</p>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers>
+                public static int sum(int a, int b) {
+                  int sum = a + b;
+                  writeSomethingToFile();
+                  saveSumInDB(sum);
+                  return sum;
+                }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <p>Pure</p>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers>
+                public static MyClass toMyClass(FromClass fromClass) {
+                    return MyClass.builder()
+                            .name(fromClass.getName())
+                            .lastName(fromClass.getLastName())
+                            .monthlyIncome(fromClass.getMonthlyIncome())
+                            .build();
+                }</code></pre>
+            <p>Impure</p>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers>
+                public static MyClass toMyClass(FromClass fromClass) {
+                    return MyClass.builder()
+                            .name(fromClass.getName())
+                            .lastName(fromClass.getLastName())
+                            .monthlyIncome(someDbAdapter.getUserMonthlyIncome(fromClass.getUserId()))
+                            .build();
+                }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <p>Pure</p>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers>
+                public static MyClass toMyClass(FromClass fromClass) {
+                    return MyClass.builder()
+                            .name(fromClass.getName())
+                            .lastName(fromClass.getLastName())
+                            .monthlyIncome(fromClass.getMonthlyIncome())
+                            .build();
+                }</code></pre>
           </section>
           <section data-auto-animate>
             <h3><strong>Effects</strong></h3>
