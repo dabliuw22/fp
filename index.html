@@ -1272,6 +1272,27 @@
             <h3><strong>Error Effects</strong></h3>
             <br>
             <p>Exceptions break the flow</p>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim>
+                Function&lt;String, User&gt; makeUser = email -> {
+                  if (!isValid(email)) throw new InvalidEmailException("Boom...");
+                  return User.builder()
+                    .id(Id.generate())
+                    .email(email)
+                    .build();
+                };
+                
+                public Boolean isNewUser(User user) { ... }
+                
+                public String run(String email) {
+                  User user = makeUser.apply(email);
+                  return isNewUser(user) ? user.id() : ""
+                } </code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Error Effects</strong></h3>
+            <br>
+            <p>Exceptions break the flow</p>
             <p>Exceptions are not type-safe</p>
             <pre data-id="code-animation">
               <code class="hljs java" data-trim>
