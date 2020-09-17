@@ -1439,13 +1439,24 @@
             <p><code>null</code> generates errors: <code>NullPointerException</code></p>
             <p><code>null</code> is not a value</p>
             <pre data-id="code-animation">
-              <code class="hljs java" data-trim>
+              <code class="hljs java" data-trim data-line-numbers=|1-6|8-10|12-16>
                 User makeUser(String email) {
                   return !isValid(email) ? null : User.builder()
                     .id(Id.generate())
                     .email(email)
                     .build();
-                }</code></pre>
+                }
+                
+                User save(User user) {
+                  return user != null ? Jdbc.save(user): null;
+                }
+
+                Response run(String email) {
+                  User user = makeUser(email);
+                  User savedUder = save(user);
+                  return Objects.isNull(savedUder)? BadRequest(): Ok(savedUder);
+                }
+                </code></pre>
           </section>
           <section data-auto-animate>
             <h3><strong>Null Effects</strong></h3>
@@ -1462,7 +1473,7 @@
             <p>don't return null</p>
             <pre data-id="code-animation">
               <code class="hljs java" data-trim>
-                Function&lt;String, Option&lt;User&gt; makeUser = email -> {
+                Function&lt;String, Option&lt;User&gt;&gt; makeUser = email -> {
                   return isValid(email) ? Option.some(User.builder()
                     .id(Id.generate())
                     .email(email)
@@ -1679,7 +1690,7 @@
                     AsyncTask.fromAsyncTask(
                       IO { 
                         CompletableFuture
-                          .supplyAsync(() => Jdbc.first(query), executor)
+                          .supplyAsync(() => Jdbc.first(query), executor))
                       }
                       .map(decoder.decode)
                     )
