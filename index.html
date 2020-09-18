@@ -1302,7 +1302,7 @@
                             incoming -> incoming.compareTo(new BigDecimal(10000000)) > 0;
 
                     // BigDecimal -> BigDecimal
-                    static Function&lt;BigDecimal, BigDecimal&gt; add1Percent =
+                    static Function&lt;BigDecimal, BigDecimal&gt; add10Percent =
                             incoming -> incoming.add(incoming.multiply(BigDecimal.valueOf(0.1)));
 
                     // (BigDecimal, BigDecimal) -> BigDecimal
@@ -1325,7 +1325,7 @@
 
                       Option&lt;BigDecimal&gt; result = incomings.stream()
                                                 .filter(inc -> filterAlotEarning.apply(inc))
-                                                .map(inc -> add1Percent.apply(inc))
+                                                .map(inc -> add10Percent.apply(inc))
                                                 .reduce(reduceToTotal::apply);
                     }
 
@@ -1334,7 +1334,7 @@
                             incoming -> incoming.compareTo(new BigDecimal(10000000)) > 0;
 
                     // BigDecimal -> BigDecimal
-                    static Function&lt;BigDecimal, BigDecimal&gt; add1Percent =
+                    static Function&lt;BigDecimal, BigDecimal&gt; add10Percent =
                             incoming -> incoming.add(incoming.multiply(BigDecimal.valueOf(0.1)));
 
                     // (BigDecimal, BigDecimal) -> BigDecimal
@@ -1352,7 +1352,7 @@
 
                       Option&lt;BigDecimal&gt; result = incomings.stream()
                                                 .filter(filterAlotEarning)
-                                                .map(add1Percent)
+                                                .map(add10Percent)
                                                 .reduce((a, b) -> reduceToTotal.apply(a).apply(b));
                     }
 
@@ -1361,7 +1361,7 @@
                             incoming -> incoming.compareTo(new BigDecimal(10000000)) > 0;
 
                     // BigDecimal -> BigDecimal
-                    static Function&lt;BigDecimal, BigDecimal&gt; add1Percent =
+                    static Function&lt;BigDecimal, BigDecimal&gt; add10Percent =
                             incoming -> incoming.add(incoming.multiply(BigDecimal.valueOf(0.1)));
 
                     static Function&lt;BigDecimal, Function&lt;BigDecimal, BigDecimal>> reduceToTotal =
@@ -1432,7 +1432,7 @@
                 val add: (Int, Int) => Int = (a, b) => a + b
 
                 // With curryng 
-                val add: Int => Int => Int = a => b = a + b
+                val add: Int => Int => Int = a => b => a + b
                 val result = add(5)(6) // 11</code></pre>
           </section>
           <section data-auto-animate>
