@@ -1178,7 +1178,7 @@
             <pre data-id="code-animation">
               <code class="hljs java" data-trim data-line-numbers>
                 public static ClientInfo toClientInfo(Client client) {
-                    return MyClass.builder()
+                    return ClientInfo.builder()
                             .name(client.getName().getValue())
                             .lastName(client.getLastName().getValue())
                             .monthlyIncome(mambuApiAdapter.getClientMonthlyIncome(client.getId().getValue()))
@@ -1188,7 +1188,7 @@
             <pre data-id="code-animation">
               <code class="hljs java" data-trim data-line-numbers>
                 public static ClientInfo toClientInfo(Client client, MambuMonthlyIncome mambuMonthlyIncome) {
-                    return MyClass.builder()
+                    return ClientInfo.builder()
                             .name(client.getName().getValue())
                             .lastName(client.getLastName().getValue())
                             .monthlyIncome(mambuMonthlyIncome.getValue())
@@ -1228,9 +1228,8 @@
                     for (BigDecimal i : incomings) {
                         if(i.compareTo(10000000) > 0) {
                           BigDecimal newValue = i.add(i.multiply(BigDecimal.valueOf(0.1)));
-                          saveInDb(newValue)
-                          result.add(newValue)
-                          logger.info("{}", i);
+                          saveInDb(newValue);
+                          result.add(newValue);
                         }
                     }
                   }
@@ -1249,7 +1248,7 @@
                           new BigDecimal(6000000)
                       );
 
-                      List&lt;BigDecimal&gt; result = this.myPurificationAttempt(incomings)
+                      List&lt;BigDecimal&gt; result = this.myPurificationAttempt(incomings);
 
                       // We could do whatever i want with my result --- Another impure function maybe? XD.
                     }
@@ -1260,9 +1259,8 @@
                       for (BigDecimal i : incomings) {
                           if(i.compareTo(10000000) > 0) {
                             BigDecimal newValue = i.add(i.multiply(BigDecimal.valueOf(0.1)));
-                            saveInDb(newValue)
-                            result.add(newValue)
-                            logger.info("{}", i);
+                            saveInDb(newValue);
+                            result.add(newValue);
                           }
                       }
 
@@ -1288,7 +1286,7 @@
           <section data-auto-animate>
             <h3><strong>Pure</strong></h3>
             <pre data-id="code-animation">
-              <code class="hljs java" data-trim data-line-numbers=|11-13|15-17|19-20>
+              <code class="hljs java" data-trim data-line-numbers=|11-13|15-17|19-21>
                   public class Application {
                     public static void main(String[] args) {
                       List&lt;BigDecimal&gt; incomings = Arrays.asList(
@@ -1307,8 +1305,9 @@
                     static Function&lt;BigDecimal, BigDecimal&gt; add1Percent =
                             incoming -> incoming.add(incoming.multiply(BigDecimal.valueOf(0.1)));
 
-                    // BigDecimal -> BigDecimal
-                    static Function&lt;BigDecimal, BigDecimal&gt; saveInDb = //Some function with DB effect... 
+                    // (BigDecimal, BigDecimal) -> BigDecimal
+                    static BiFunction&lt;BigDecimal, BigDecimal, BigDecimal> reduceToTotal =
+                            BigDecimal::add; // it could be (a, b) -> a.add(b)
                   }</code></pre>
           </section>
           <section data-auto-animate>
@@ -1324,12 +1323,10 @@
                           new BigDecimal(6000000)
                       );
 
-                      List&lt;BigDecimal&gt; result = incomings.stream()
+                      Option&lt;BigDecimal&gt; result = incomings.stream()
                                                 .filter(inc -> filterAlotEarning.apply(inc))
                                                 .map(inc -> add1Percent.apply(inc))
-                                                .flatMap(inc -> Stream.of(saveInDb.apply(inc)))
-                                                .peek(i -> logger.info("{}", i))
-                                                .collect(Collectors.toList());
+                                                .reduce(reduceToTotal::apply);
                     }
 
                     // BigDecimal -> Boolean
@@ -1340,24 +1337,23 @@
                     static Function&lt;BigDecimal, BigDecimal&gt; add1Percent =
                             incoming -> incoming.add(incoming.multiply(BigDecimal.valueOf(0.1)));
 
-                    // BigDecimal -> BigDecimal
-                    static Function&lt;BigDecimal, BigDecimal&gt; saveInDb = //Some function with DB effect... 
+                    // (BigDecimal, BigDecimal) -> BigDecimal
+                    static BiFunction&lt;BigDecimal, BigDecimal, BigDecimal> reduceToTotal =
+                            BigDecimal::add; // it could be (a, b) -> a.add(b)
                   }</code></pre>
           </section>
           <section data-auto-animate>
             <h3><strong>Higher Order Functions</strong></h3>
             <pre data-id="code-animation">
-              <code class="hljs java" data-trim data-line-numbers=|13-15|17-19|6-7>
+              <code class="hljs java" data-trim data-line-numbers=|11-13|15-17|19-20|6-8>
                   public class Application {
                     public static void main(String[] args) {
                       List&lt;BigDecimal&gt; incomings = ...
 
-                      List&lt;BigDecimal&gt; result = incomings.stream()
+                      Option&lt;BigDecimal&gt; result = incomings.stream()
                                                 .filter(filterAlotEarning)
                                                 .map(add1Percent)
-                                                .flatMap(inc -> Stream.of(saveInDb.apply(inc)))
-                                                .peek(i -> logger.info("{}", i))
-                                                .collect(Collectors.toList());
+                                                .reduce((a, b) -> reduceToTotal.apply(a).apply(b));
                     }
 
                     // BigDecimal
@@ -1368,8 +1364,8 @@
                     static Function&lt;BigDecimal, BigDecimal&gt; add1Percent =
                             incoming -> incoming.add(incoming.multiply(BigDecimal.valueOf(0.1)));
 
-                    // BigDecimal -> BigDecimal
-                    static Function&lt;BigDecimal, BigDecimal&gt; saveInDb = //Some function with DB effect... 
+                    static Function&lt;BigDecimal, Function&lt;BigDecimal, BigDecimal>> reduceToTotal =
+                            a -> (a::add);  //a -> (b -> a.add(b))
                   }</code></pre>
           </section>
           <section data-auto-animate>
@@ -1382,8 +1378,114 @@
                   val newSalaries1 = salaries.map(x => x * 2) // List(40000, 140000, 80000)
                   val newSalaries2 = salaries.map(_ * 2) // List(40000, 140000, 80000)
                 </code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Higher Order Functions</strong></h3>
             <pre data-id="code-animation">
               <code class="hljs scala" data-trim data-line-numbers>
+                  //Recieve a function like a param
+                  val salaries = Seq(20000, 70000, 40000)
+                  val doubleSalary = (x: Int) => x * 2
+                  val newSalaries = salaries.map(doubleSalary) // List(40000, 140000, 80000)
+                  val newSalaries1 = salaries.map(x => x * 2) // List(40000, 140000, 80000)
+                  val newSalaries2 = salaries.map(_ * 2) // List(40000, 140000, 80000)
+                </code></pre>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers>
+                  // Return a function
+                  Function&lt;BigDecimal, Function&lt;BigDecimal, BigDecimal>> reduceToTotal =
+                    a -> (a::add);  //a -> (b -> a.add(b))
+                </code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Curryng</strong></h3>
+            <p>One function with multiple arguments becomes in a series of fuctions that each take only one argument</p>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers>
+                  // Not curryng
+                  BiFunction&lt;BigDecimal, BigDecimal, BigDecimal> reduceToTotal =
+                    BigDecimal::add; // it could be (a, b) -> a.add(b)
+
+                  // With curryng
+                  Function&lt;BigDecimal, Function&lt;BigDecimal, BigDecimal>> reduceToTotal =
+                    a -> (a::add);  // a -> (b -> a.add(b))
+                </code></pre>
+            <pre data-id="code-animation">
+              <code class="hljs kotlin" data-trim data-line-numbers>
+                  //Not curryng
+                  fun add(a: Int, b: Int) = a + b
+
+                  // With curryng 
+                  fun add(a: Int) = {(b: Int) -> a + b }
+                  val result = add(5)(6) // 11
+                </code></pre>    
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Funtion composition</strong></h3>
+            <p>Working with functions i could compose each other</p>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers>
+                  // Given
+                  f(x) = x + 1
+                  g(x) = x - 1
+                </code></pre>   
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Funtion composition</strong></h3>
+            <p>Working with functions i could compose each other</p>
+            <pre data-id="code-animation">
+                <code class="hljs java" data-trim data-line-numbers>
+                  // Given
+                  f(x) = x + 1
+                  g(x) = x - 1
+
+                  // We need compose g inside f or f o g
+                  f(g(x)) = (x - 1) + 1
+                  </code></pre>  
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Funtion composition</strong></h3>
+            <p>Working with functions i could compose each other</p>
+            <pre data-id="code-animation">
+                <code class="hljs java" data-trim data-line-numbers>
+                  // Given
+                  f(x) = x + 1
+                  g(x) = x - 1
+
+                  // We need compose g inside f or f o g
+                  f(g(x)) = (x - 1) + 1
+
+                  // The result
+                  f(g(x)) = x
+                  </code></pre>  
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Funtion composition</strong></h3>
+            <p>Let's code</p>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers>
+                  Function&lt;BigDecimal, Function&lt;BigDecimal, BigDecimal>> getTotal1 =
+                      a -> (a::add);
+          
+                  Function&lt;BigDecimal, BigDecimal> getTotal2 =
+                          a -> a.subtract(BigDecimal.ONE);
+                </code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Funtion composition</strong></h3>
+            <p>Let's code</p>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers>
+                  Function&lt;BigDecimal, Function&lt;BigDecimal, BigDecimal>> getTotal1 =
+                      a -> (a::add);
+          
+                  Function&lt;BigDecimal, BigDecimal> getTotal2 =
+                          a -> a.subtract(BigDecimal.ONE);
+
+                  getTotal1.compose(getTotal2).apply(BigDecimal.TEN);
+                  // $$Lambda$227/106417846@2ba270f0
+                  getTotal1.compose(getTotal2).apply(BigDecimal.TEN).apply(BigDecimal.ONE);
+                  // 10
                 </code></pre>
           </section>
           <section data-auto-animate>
