@@ -1672,7 +1672,7 @@
                   .map(Ok::apply)
                   .recovery(InvalidEmailException.class, BadRequest::apply)
                   .recovery(InternalError::apply);</code></pre>
-            <p>Composition</p>
+            <p>Monadic sequencing</p>
           </section>
           <section data-auto-animate>
             <h3><strong>Error Effects</strong></h3>
@@ -1684,7 +1684,7 @@
                   .map(Ok::apply)
                   .recovery(InvalidEmailException.class, BadRequest::apply)
                   .recovery(InternalError::apply);</code></pre>
-            <p>Composition</p>
+            <p>Monadic sequencing</p>
             <p>Error handling</p>
           </section>
           <section data-auto-animate>
@@ -1697,7 +1697,7 @@
                   .map(Ok::apply)
                   .recovery(InvalidEmailException.class, BadRequest::apply)
                   .recovery(InternalError::apply);</code></pre>
-              <p>Composition</p>
+              <p>Monadic sequencing</p>
               <p>Error handling</p>
               <p>Avoid partial functions</p>
           </section>
@@ -1849,7 +1849,7 @@
                 makeUser.apply(email)
                   .flatMap(this::save);</code></pre>
             <br>
-            <p>Composition</p>
+            <p>Monadic sequencing</p>
             <p>Error handling</p>
             <p>Pattern matching decomposition</p>
             <p>Total functions</p>
@@ -2134,6 +2134,74 @@
                     case Left(error)   => print(error)
                   }
                 }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>External Effects - Tips</strong></h3>
+            <br>
+            <p>When we have values, build with the <code>pure()</code> function</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>External Effects - Tips</strong></h3>
+            <br>
+            <p>When we have values, build with the <code>pure()</code> function</p>
+            <p>Sequence operations with monadic operators <code>flatMap()</code></p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>External Effects - Tips</strong></h3>
+            <br>
+            <p>When we have values, build with the <code>pure()</code> function</p>
+            <p>Sequence operations with monadic operators <code>flatMap()</code></p>
+            <p>Useful for asynchronous or synchronous executions</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>External Effects - Tips</strong></h3>
+            <br>
+            <p>When we have values, build with the <code>pure()</code> function</p>
+            <p>Sequence operations with monadic operators <code>flatMap()</code></p>
+            <p>Useful for asynchronous or synchronous executions</p>
+            <p>Useful for parallel executions</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>External Effects - Tips</strong></h3>
+            <br>
+            <p>When we have values, build with the <code>pure()</code> function</p>
+            <p>Sequence operations with monadic operators <code>flatMap()</code></p>
+            <p>Useful for asynchronous or synchronous executions</p>
+            <p>Useful for parallel executions</p>
+            <p>Useful for error handling</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>External Effects - Tips</strong></h3>
+            <br>
+            <p>When we have values, build with the <code>pure()</code> function</p>
+            <p>Sequence operations with monadic operators <code>flatMap()</code></p>
+            <p>Useful for asynchronous or synchronous executions</p>
+            <p>Useful for parallel executions</p>
+            <p>Useful for error handling</p>
+            <p>Materialize effect on the outer layer</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>External Effects - Tips</strong></h3>
+            <br>
+            <p>When we have values, build with the <code>pure()</code> function</p>
+            <p>Sequence operations with monadic operators <code>flatMap()</code></p>
+            <p>Useful for asynchronous or synchronous executions</p>
+            <p>Useful for parallel executions</p>
+            <p>Useful for error handling</p>
+            <p>Materialize effect on the outer layer</p>
+            <p>Avoid effects on the <code>map()</code> function</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>External Effects - Tips</strong></h3>
+            <br>
+            <p>When we have values, build with the <code>pure()</code> function</p>
+            <p>Sequence operations with monadic operators <code>flatMap()</code></p>
+            <p>Useful for asynchronous or synchronous executions</p>
+            <p>Useful for parallel executions</p>
+            <p>Useful for error handling</p>
+            <p>Materialize effect on the outer layer</p>
+            <p>Avoid effects on the <code>map()</code> function</p>
+            <p>Combine with other types of effects</p>
           </section>
           <section>
             <h3><strong>External Effects</strong></h3>
