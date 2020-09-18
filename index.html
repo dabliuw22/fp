@@ -1177,21 +1177,21 @@
             <h3><strong>Impure</strong></h3>
             <pre data-id="code-animation">
               <code class="hljs java" data-trim data-line-numbers>
-                public static MyClass toMyClass(FromClass fromClass) {
+                public static ClientInfo toClientInfo(Client client) {
                     return MyClass.builder()
-                            .name(fromClass.getName().getValue())
-                            .lastName(fromClass.getLastName().getValue())
-                            .monthlyIncome(someDbAdapter.getUserMonthlyIncome(fromClass.getUserId().getValue()))
+                            .name(client.getName().getValue())
+                            .lastName(client.getLastName().getValue())
+                            .monthlyIncome(mambuApiAdapter.getClientMonthlyIncome(client.getId().getValue()))
                             .build();
                 }</code></pre>
             <h3><strong>Pure</strong></h3>
             <pre data-id="code-animation">
               <code class="hljs java" data-trim data-line-numbers>
-                public static MyClass toMyClass(FromClass fromClass, MonthlyIncome monthlyIncome) {
+                public static ClientInfo toClientInfo(Client client, MambuMonthlyIncome mambuMonthlyIncome) {
                     return MyClass.builder()
-                            .name(fromClass.getName().getValue())
-                            .lastName(fromClass.getLastName().getValue())
-                            .monthlyIncome(monthlyIncome.getValue())
+                            .name(client.getName().getValue())
+                            .lastName(client.getLastName().getValue())
+                            .monthlyIncome(mambuMonthlyIncome.getValue())
                             .build();
                 }</code></pre>
           </section>
@@ -1343,6 +1343,48 @@
                     // BigDecimal -> BigDecimal
                     static Function&lt;BigDecimal, BigDecimal&gt; saveInDb = //Some function with DB effect... 
                   }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Higher Order Functions</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers=|13-15|17-19|6-7>
+                  public class Application {
+                    public static void main(String[] args) {
+                      List&lt;BigDecimal&gt; incomings = ...
+
+                      List&lt;BigDecimal&gt; result = incomings.stream()
+                                                .filter(filterAlotEarning)
+                                                .map(add1Percent)
+                                                .flatMap(inc -> Stream.of(saveInDb.apply(inc)))
+                                                .peek(i -> logger.info("{}", i))
+                                                .collect(Collectors.toList());
+                    }
+
+                    // BigDecimal
+                    static Predicate&lt;BigDecimal&gt; filterAlotEarning =
+                            incoming -> incoming.compareTo(new BigDecimal(10000000)) > 0;
+
+                    // BigDecimal -> BigDecimal
+                    static Function&lt;BigDecimal, BigDecimal&gt; add1Percent =
+                            incoming -> incoming.add(incoming.multiply(BigDecimal.valueOf(0.1)));
+
+                    // BigDecimal -> BigDecimal
+                    static Function&lt;BigDecimal, BigDecimal&gt; saveInDb = //Some function with DB effect... 
+                  }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Higher Order Functions</strong></h3>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers>
+                  val salaries = Seq(20000, 70000, 40000)
+                  val doubleSalary = (x: Int) => x * 2
+                  val newSalaries = salaries.map(doubleSalary) // List(40000, 140000, 80000)
+                  val newSalaries1 = salaries.map(x => x * 2) // List(40000, 140000, 80000)
+                  val newSalaries2 = salaries.map(_ * 2) // List(40000, 140000, 80000)
+                </code></pre>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers>
+                </code></pre>
           </section>
           <section data-auto-animate>
             <h3><strong>Effects</strong></h3>
