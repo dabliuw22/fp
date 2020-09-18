@@ -1635,8 +1635,8 @@
             <p>Connect to databases</p>
             <pre data-id="code-animation">
               <code class="hljs java" data-trim>
-                User findBy(String id) {
-                  return Decoder.decode(Jdbc.first(query));
+                User findBy(Key key) {
+                  return Decoder.decode(DynamoDb.getByKey(key));
                 }</code></pre>
           </section>
           <section data-auto-animate>
@@ -1794,16 +1794,16 @@
             <br>
             <pre data-id="code-animation">
               <code class="hljs scala" data-trim data-line-numbers=|5-13|16-23>
-                object NonBlockingJdbc {
+                object NonBlockingDynamoDb {
 
                   val executor: ExecutorService = ???
                   
-                  def first[A](query: Query)(implicit decoder: Decoder[A], 
+                  def getByKey[A](key: Key)(implicit decoder: Decoder[A], 
                     cs: ContextShift): IO[Option[A]] =
                     AsyncTask.fromAsyncTask(
                       IO { 
                         CompletableFuture
-                          .supplyAsync(() => Jdbc.first(query), executor))
+                          .supplyAsync(() => DynamoDb.getByKey(key))
                       }
                       .map(decoder.decode)
                     )
@@ -1815,8 +1815,8 @@
 
                   private val query = ???
 
-                  def findBy(id: String)(implicit cs: ContextShift): IO[Option[User]] =
-                    NonBlockingJdbc.first[User](query)
+                  def findBy(key: Key)(implicit cs: ContextShift): IO[Option[User]] =
+                    NonBlockingDynamoDb.getByKey[User](key)
                 }</code></pre>
           </section>
           <section data-auto-animate>
@@ -1832,7 +1832,7 @@
 
                   val userRepository = ???
 
-                  userRepository.findBy("id")
+                  userRepository.findBy("key")
                 }</code></pre>
           </section>
           <section data-auto-animate>
@@ -1848,7 +1848,7 @@
 
                   val userRepository = ???
 
-                  userRepository.findBy("id").unsafeRunAsync {
+                  userRepository.findBy("key").unsafeRunAsync {
                     case Right(result) => print(result)
                     case Left(error)   => print(error)
                   }
