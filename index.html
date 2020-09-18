@@ -1410,15 +1410,39 @@
                   Function&lt;BigDecimal, Function&lt;BigDecimal, BigDecimal>> reduceToTotal =
                     a -> (a::add);  // a -> (b -> a.add(b))
                 </code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Curryng</strong></h3>
+            <p>One function with multiple arguments becomes in a series of fuctions that each take only one argument</p>
             <pre data-id="code-animation">
               <code class="hljs kotlin" data-trim data-line-numbers>
-                  //Not curryng
-                  fun add(a: Int, b: Int) = a + b
+                //Not curryng
+                fun add(a: Int, b: Int) = a + b
 
-                  // With curryng 
-                  val add: Int -> (Int -> Int) = { a -> { b -> a + b } }
-                  val result = add(5)(6) // 11
-                </code></pre>    
+                // With curryng 
+                val add: (Int) -> (Int) -> Int = { a -> { b -> a + b } }
+                val result = add(5)(6) // 11</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Curryng</strong></h3>
+            <p>One function with multiple arguments becomes in a series of fuctions that each take only one argument</p>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers>
+                //Not curryng
+                val add: (Int, Int) => Int = (a, b) => a + b
+
+                // With curryng 
+                val add: Int => Int => Int = a => b = a + b
+                val result = add(5)(6) // 11</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Curryng</strong></h3>
+            <p>One function with multiple arguments becomes in a series of fuctions that each take only one argument</p>
+            <pre data-id="code-animation">
+              <code class="hljs haskell" data-trim data-line-numbers>
+                add :: Int -> Int -> Int
+                add a b = a + b
+                result = add 5 6 -- 11</code></pre>
           </section>
           <section data-auto-animate>
             <h3><strong>Funtion composition</strong></h3>
@@ -1473,7 +1497,7 @@
           </section>
           <section data-auto-animate>
             <h3><strong>Funtion composition</strong></h3>
-            <p>Let's code</p>
+            <p>Let's code in Java</p>
             <pre data-id="code-animation">
               <code class="hljs java" data-trim data-line-numbers>
                   Function&lt;BigDecimal, Function&lt;BigDecimal, BigDecimal>> getTotal1 =
@@ -1488,6 +1512,35 @@
                   // 10
                 </code></pre>
           </section>
+          <section data-auto-animate>
+            <h3><strong>Funtion composition</strong></h3>
+            <p>Let's code in Scala</p>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers>
+                  val getTotal1: BigDecimal => BigDecimal => BigDecimal = a => b => a.add(b)
+
+                  val getTotal2: BigDecimal => BigDecimal = a => a.subtract(BigDecimal.ONE)
+
+                  (getTotal1 compose getTotal2)(BigDecimal.TEN)
+                  // $$Lambda$227/106417846@2ba270f0
+                  (getTotal1 compose getTotal2)(BigDecimal.TEN)(BigDecimal.ONE)
+                  // 10
+                </code></pre>
+          </section>
+          <section data-auto-animate>
+              <h3><strong>Funtion composition</strong></h3>
+              <p>Let's code in Haskell</p>
+              <pre data-id="code-animation">
+                <code class="hljs haskell" data-trim data-line-numbers>
+                    getTotal1 :: Double -> Double -> Double = a -> b -> a + b
+                    getTotal2 :: Double -> Double = a -> a - 1
+  
+                    (getTotal1 . getTotal2) 10.0
+                    -- lambda :: Double -> Double
+                    (getTotal1 . getTotal2) 10.0 1.0
+                    -- 10.0 :: Double
+                  </code></pre>
+            </section>
           <section data-auto-animate>
             <h3><strong>Effects</strong></h3>
             <br>
