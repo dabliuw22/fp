@@ -1416,7 +1416,7 @@
                   fun add(a: Int, b: Int) = a + b
 
                   // With curryng 
-                  fun add(a: Int) = {(b: Int) -> a + b }
+                  val add: Int -> (Int -> Int) = { a -> { b -> a + b } }
                   val result = add(5)(6) // 11
                 </code></pre>    
           </section>
@@ -1432,27 +1432,27 @@
           </section>
           <section data-auto-animate>
             <h3><strong>Funtion composition</strong></h3>
-            <p>Working with functions i could compose each other</p>
+            <p>Working with functions we could compose each other</p>
             <pre data-id="code-animation">
                 <code class="hljs java" data-trim data-line-numbers>
                   // Given
                   f(x) = x + 1
                   g(x) = x - 1
 
-                  // We need compose g inside f or f o g
+                  // We need compose g inside f
                   f(g(x)) = (x - 1) + 1
                   </code></pre>  
           </section>
           <section data-auto-animate>
             <h3><strong>Funtion composition</strong></h3>
-            <p>Working with functions i could compose each other</p>
+            <p>Working with functions we could compose each other</p>
             <pre data-id="code-animation">
                 <code class="hljs java" data-trim data-line-numbers>
                   // Given
                   f(x) = x + 1
                   g(x) = x - 1
 
-                  // We need compose g inside f or f o g
+                  // We need compose g inside f
                   f(g(x)) = (x - 1) + 1
 
                   // The result
