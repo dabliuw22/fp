@@ -2137,7 +2137,7 @@
                     AsyncTask.fromAsyncTask(
                       IO { 
                         CompletableFuture
-                          .supplyAsync(() => DynamoDb.getByKey(key))
+                          .supplyAsync(() => DynamoDb.getByKey(key), executor)
                       }
                       .map(decoder.decode)
                     )
