@@ -2269,6 +2269,241 @@
               <li><a href="https://bow-swift.io/docs/effects/effects-overview/" title="Bow">Bow</a></li>
             </ul>
           </section>
+          <section data-auto-animate>
+            <h3><strong>Polymorfism</strong></h3>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Polymorfism</strong></h3>
+            <br>
+            <p>Ad hoc</p>
+            <p>Parametric</p>
+            <p>Inclusion (Subtyping)</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Polymorfism</strong></h3>
+            <br>
+            <p>Parametric</p>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers>
+                public class Container&lt;T> {
+                  public T get(T element) {
+                    return element;
+                  }
+                }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Polymorfism</strong></h3>
+            <br>
+            <p>Parametric</p>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers>
+                public class Container&lt;T> {
+                  public T get(T element) {
+                    return element;
+                  }
+                }</code></pre>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers>
+                class Container[T](private val element: T) {
+                  def get: T = element
+                }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Polymorfism</strong></h3>
+            <br>
+            <p>Parametric</p>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers>
+                public class Container&lt;T> {
+                  public T get(T element) {
+                    return element;
+                  }
+                }
+                
+                Container&lt;Integer> contInt = new Container&lt;>();
+                Integer value = contInt.get(4); // value = 4;
+
+                Container&lt;String> contString = new Container&lt;>();
+                String value = contString.get("Polymorfism Parametric"); // value = "Polymorfism Parametric"
+              </code></pre>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers>
+                class Container[T](private val element: T) {
+                  def get: T = element
+                }
+              </code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Polymorfism</strong></h3>
+            <br>
+            <p>Parametric</p>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers>
+                public class Container&lt;T> {
+                  public T get(T element) {
+                    return element;
+                  }
+                }
+                
+                ...
+              </code></pre>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers>
+                class Container[T](private val element: T) {
+                  def get: T = element
+                }
+
+                val contInt = new Container(5)
+                val value: Int = contInt.get // value = 5
+
+                val contInt = new Container("Polymorfism Parametric")
+                val value: String = contInt.get // value = "Polymorfism Parametric"
+              </code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Polymorfism</strong></h3>
+            <br>
+            <p>Parametric</p>
+            <small>The implementation is independent of the type parameter</small><br>
+            <small>We can create generic and reusable code</small><br>
+            <small>We can abstract over types</small><br>
+            <small>We can be expresive and improve type-safety</small>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Polymorfism</strong></h3>
+            <br>
+            <p>Ad hoc</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Polymorfism</strong></h3>
+            <br>
+            <p>Ad hoc</p>
+            <pre data-id="code-animation">
+              <code class="hljs java" data-trim data-line-numbers=|3-8|10-18>
+                public class Application {
+
+                  void sorting(int[] list) {
+                    Arrays.parallelSort(list);
+                  }
+                  void sorting(String[] names) {
+                    Arrays.parallelSort(names);		
+                  }
+                
+                  public static void main(String[] args) {
+                
+                    Application obj = new Application();
+                    int list[] = {2, 3, 1, 5, 4};
+                    obj.sorting(list);
+                    
+                    String[] names = {"Lulo", "Bank", "Functional", "Programming"};
+                    obj.sorting(names);
+                  }
+                }</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Polymorfism</strong></h3>
+            <br>
+            <p>Ad hoc</p>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers>
+                trait Team {
+                  def name: String
+                }
+
+                final case class Jugger(name: String) extends Team
+                final case class Osiris(name: String) extends Team
+                final case class Hammer(name: String) extends Team
+
+                def greeting(team: Team): String = s"Hello all teams"
+                def greeting(team: Jugger): String = s"Hello team Jugger"
+                def greeting(team: Osiris): String = s"Hello team Osiris"
+                def greeting(team: Hammer): String = s"Hello team Hammer"
+                </code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>Polymorfism</strong></h3>
+            <br>
+            <p>Ad hoc</p>
+            <small>Called method is at compile time</small><br>
+            <small>Implementation selected based on type of parameters</small><br>
+            <small>*in Scala this polymorfism is related to TypeClasses Pattern</small><br>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>TypeClasses</strong></h3>
+            <br>
+            <small>We can implement an interface for unrelated types</small><br>
+            <small>Existing code doesn’t have to be modified when adding new data types or implementing functionality for new types</small><br>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>TypeClasses includes</strong></h3>
+            <br>
+            <p>The type class itself</p>
+            <p>Instances for particular types</p>
+            <p>Interface to use the TypeClass</p>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>TypeClasses</strong></h3>
+            <br>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers>
+                trait Ordering[T] {
+                  def compare(x: T, y: T): Int
+                }
+                </code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>TypeClasses</strong></h3>
+            <br>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers=|5|7-9|11-14>
+                trait Ordering[T] {
+                  def compare(x: T, y: T): Int
+                }
+
+                final case class Developer(name: String, exp: Int)
+
+                implicit val developerExpOrdering: Ordering[Developer] = new Ordering[Developer] {
+                  override def compare(x: Developer, y: Developer): Int = x.exp - y.exp
+                }
+
+                val unsortedDevelopers = List(Developer("Jhon Doe", 12), Developer("Larry", 20),
+                                            Developer("Ben", 20))
+                val sortedDevelopers = unsortedDevelopers.sorted(developerExpOrdering)
+                val sortedDevelopers1 = unsortedDevelopers.sorted // we could write the code like that
+                </code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>TypeClasses</strong></h3>
+            <br>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers=|1|3-5|7-9>
+                final case class Person(name: String, age: Int)
+
+                implicit val personAgeOrdering: Ordering[Person] = new Ordering[Person] {
+                  override def compare(x: Person, y: Person): Int = x.age - y.age
+                }
+
+                val unsortedPersons = List(Person("Jhon Doe", 12), Person("Larry", 20),
+                                            Person("Ben", 20))
+                val sortedPersons = unsortedPersons.sorted(personAgeOrdering)
+                </code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3><strong>TypeClasses</strong></h3>
+            <br>
+            <pre data-id="code-animation">
+              <code class="hljs scala" data-trim data-line-numbers=|1-3|5>
+                implicit val personAgeOrdering: Ordering[Person] = new Ordering[Person] {
+                  override def compare(x: Person, y: Person): Int = x.age - y.age
+                }
+
+                object Sorter {
+                  def sort[T](x: T, y: T, s: Ordering[T]): Int = s.compare(x, y)
+                }
+
+                Sorter.sort(Person("Jhon Doe", 12), Person("Larry", 20), personAgeOrdering)
+                </code></pre>
+          </section>
           <section class="aligncenter">
             <!-- .wrap = container (width: 90%) -->
             <div class="wrap">
